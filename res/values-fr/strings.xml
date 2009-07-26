@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RemixThem</string>
+    <string name="nofacedetected">Désolé, je ne trouve pas de visage dans cette photo.</string>
+    <string name="ok">OK</string>
+    
+    <string name="BTN_preferences">Préférences</string>
+    
+    <string name="BTN_change">Changer</string>
+    <string name="BTN_edit">Editer</string>
+    <string name="BTN_ugly">Laid</string>
+    <string name="BTN_mix">Mélanger</string>
+    <string name="BTN_done">Fin</string>
+    <string name="BTN_send">Partager</string>
+    <string name="BTN_remixfriend">Remixer</string>
+    <string name="BTN_mixfriends">Mélanger</string>
+    <string name="BTN_gallery">Galerie</string>
+    
+</resources>
