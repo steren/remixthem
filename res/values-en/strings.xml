@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RemixThem</string>
-    <string name="nofacedetected">Sorry, I couldn\'t find a face in your picture.</string>
-    <string name="ok">OK</string>
+
+    <string name="ok">OK</string>    
+    
+    <string name="start">Hello,</string>
+    <string name="start_message">Start by taking a picture of a friend\'s face.</string>
+        
+    <string name="nofacedetected">Sorry,</string>
+    <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nWould you like to take a new one ?</string>
+
+    
+    <string name="takepicture">Take a picture of friend\'s face</string>
+    
     
     <string name="BTN_preferences">Preferences</string>
     

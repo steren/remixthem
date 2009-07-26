@@ -1,6 +1,8 @@
 package fr.steren.remixthem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -31,13 +33,28 @@ public class RemixThemEditor extends Activity {
 //        mRemixThemView.addHead(this, faceBitmap2);
         //End DEBUG
 
-        //Take the first picture
-        Toast.makeText(this, "Take a picture", Toast.LENGTH_LONG).show(); 
-        takePicture();
-        
         setContentView(mRemixThemView);
         mRemixThemView.requestFocus();
                
+        //Toast.makeText(this, R.string.takepicture, Toast.LENGTH_LONG).show(); 
+
+        //small alert
+	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ok_icon);
+	    builder.setTitle(R.string.start);
+	    builder.setMessage(R.string.start_message);
+	    //TODO use string
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //take picture
+                takePicture();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();	
+        
+
+        
         
     }
     

@@ -340,7 +340,8 @@ class RemixThemView extends View {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	        builder.setIcon(R.drawable.alert_icon);
 		    builder.setTitle(R.string.nofacedetected);
-	        //TODO use string
+		    builder.setMessage(R.string.nofacedetected_message);
+		    //TODO use string
 	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) {
 	                // do some stuff?
