@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -174,7 +172,7 @@ public class RemixThemEditor extends Activity {
     private String computeFileName() {
 	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 	        Date date = new Date();
-	        return "remix_"+ dateFormat.format(date);
+	        return "RemixThem_"+ dateFormat.format(date);
 	    }
     
     private void send() {

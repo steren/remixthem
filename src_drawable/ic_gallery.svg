@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="250"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.46+devel r21939"
+   sodipodi:docname="ic_gallery.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/steren/workspace/RemixThem/trunk/res/drawable/icon.png"
+   inkscape:export-xdpi="17.280001"
+   inkscape:export-ydpi="17.280001"
+   style="display:inline">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#919191"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="30.057396"
+     inkscape:cy="59.973654"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1152"
+     inkscape:window-x="1280"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:snap-bbox="false"
+     inkscape:object-nodes="true"
+     inkscape:snap-global="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true">
+    <sodipodi:guide
+       id="guide1814"
+       position="197.28279,228.04194"
+       orientation="-0.90379127,0.42797352" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid2291"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+    <sodipodi:guide
+       orientation="0.83069554,0.55672697"
+       position="204.3721,200.46367"
+       id="guide2919" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 125 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="250 : 125 : 1"
+       inkscape:persp3d-origin="125 : 83.333333 : 1"
+       id="perspective63" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2283">
+      <stop
+         style="stop-color:#53851a;stop-opacity:1"
+         offset="0"
+         id="stop2285" />
+      <stop
+         style="stop-color:#86d531;stop-opacity:1"
+         offset="1"
+         id="stop2287" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2275">
+      <stop
+         style="stop-color:#416914;stop-opacity:1"
+         offset="0"
+         id="stop2277" />
+      <stop
+         style="stop-color:#9adb52;stop-opacity:1"
+         offset="1"
+         id="stop2279" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2275"
+       id="linearGradient2281"
+       x1="143.31593"
+       y1="145.31641"
+       x2="140.47067"
+       y2="81.237312"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1244682,0,0,1.1244682,-13.461282,787.55935)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2283"
+       id="linearGradient2289"
+       x1="106.74747"
+       y1="160.1944"
+       x2="102.4817"
+       y2="88.319275"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.1244682,0,0,1.1244682,-13.461282,787.55935)" />
+    <filter
+       inkscape:collect="always"
+       id="filter2851"
+       x="-0.13917771"
+       width="1.2783554"
+       y="-0.14916845"
+       height="1.2983369"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.8840509"
+         id="feGaussianBlur2853" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter2851-8"
+       x="-0.13917771"
+       width="1.2783554"
+       y="-0.14916845"
+       height="1.2983369">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.8840509"
+         id="feGaussianBlur2853-5" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter2851-8-1"
+       x="-0.13917771"
+       width="1.2783554"
+       y="-0.14916845"
+       height="1.2983369">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.8840509"
+         id="feGaussianBlur2853-5-3" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter841"
+       x="-0.054945569"
+       width="1.1098911"
+       y="-0.10440649"
+       height="1.208813"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="4.2392528"
+         id="feGaussianBlur843" />
+    </filter>
+    <inkscape:perspective
+       id="perspective75"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective89"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="icon">
+    <image
+       y="94.699966"
+       x="-117.82337"
+       id="image77"
+       height="32"
+       width="32"
+       xlink:href="file:///home/steren/workspace/RemixThem/res/drawable/alert_icon.png" />
+    <image
+       y="92.578644"
+       x="-183.5843"
+       id="image91"
+       height="32"
+       width="32"
+       xlink:href="file:///home/steren/workspace/RemixThem/res/drawable/ok_icon.png" />
+  </g>
+</svg>
