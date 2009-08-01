@@ -2,6 +2,9 @@ package fr.steren.remixthem;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -150,6 +153,22 @@ public class Compo {
         for( int i = 0; i < preset.getParamList().size(); i++) {
         	mCompoParts.get(i).setParams(preset.getParamList().get(i));
         }
+	}
+	
+	/**
+	 * Save the compo as a Bitmap
+	 */
+	public Bitmap saveAsBitmap() {
+		Bitmap bitmap = Bitmap.createBitmap(mBackgroundFace.getDrawable().getBitmap());
+		Canvas c = new Canvas(bitmap);
+		
+		//test
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+    	paint.setARGB(220, 255, 255, 255);
+	    c.drawCircle(10, 10, 10, paint);
+		
+		return bitmap;
 	}
 	
 }

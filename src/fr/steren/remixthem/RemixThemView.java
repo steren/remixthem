@@ -41,7 +41,11 @@ class RemixThemView extends View {
     /** All the "heads" are stored here */
     private ArrayList<BackgroundFace> mHeads;
 
-    /** All the presets are stored here */
+    public Compo getActiveCompo() {
+		return mActiveCompo;
+	}
+
+	/** All the presets are stored here */
     private ArrayList<Preset> mPresets;
     
 	/**
@@ -237,7 +241,7 @@ class RemixThemView extends View {
 	/**
 	 * Find a given facePart in all the available faceParts
 	 * @param facePart
-	 * @return an array of 2 indexes : the first one is the index of the Backgroundface containing the facepart, the second is the index of th facePart in the mFaceParts array of this backgroundface 
+	 * @return an array of 2 indexes : the first one is the index of the Backgroundface containing the facepart, the second is the index of the facePart in the mFaceParts array of this backgroundface 
 	 */
 	private int[] getFacePartIndex(FacePart facePart) {
 		int[] indexes = new int[2];

@@ -1,11 +1,23 @@
 package fr.steren.remixthem;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
@@ -84,7 +96,7 @@ public class RemixThemEditor extends Activity {
         	mRemixThemView.randomPreset();
             return true;
         case R.id.save:
-        	//TODO
+        	saveOnDisk();
 
             return true;
         }
@@ -121,5 +133,37 @@ public class RemixThemEditor extends Activity {
     	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
     }
 
-   
+    private void saveOnDisk() {
+   	       
+        File file1 ;
+        FileOutputStream outputStream = null;
+		try {
+			file1 = new File(Environment.getExternalStorageDirectory() + "/remixthem", computeFileName()+ ".jpg");
+	        file1.createNewFile();
+	        
+			outputStream = new FileOutputStream(file1);
+			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+			outputStream.close();
+		} catch (FileNotFoundException e1) {
+			Toast.makeText(this, "File not found",Toast.LENGTH_SHORT).show(); 
+			e1.printStackTrace();
+		} catch (IOException e) {
+			Toast.makeText(this, "Can't write in file",Toast.LENGTH_SHORT).show(); 
+			e.printStackTrace();
+		} finally {
+			if (outputStream != null) {
+				try {
+					outputStream.close();
+				} catch (IOException ex) {
+					// ignore exception
+				}
+			}
+		}	
+    }
+    
+    private String computeFileName() {
+	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+	        Date date = new Date();
+	        return "remix_"+ dateFormat.format(date);
+	    }
 }

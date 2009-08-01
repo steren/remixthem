@@ -121,7 +121,7 @@ public class BackgroundFace {
 		return facePartDrawable;
     }
     
-	public Drawable getDrawable() {
+	public BitmapDrawable getDrawable() {
 		return mDrawable;
 	}
 
