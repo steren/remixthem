@@ -1,8 +1,12 @@
 package fr.steren.remixthem;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -46,10 +50,10 @@ public class RemixThem extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.gallery_button:
+            	intent = new Intent(this, RemixThemGrid.class);
+                startActivity(intent);
                 break;
         }
     }
-
-
 	
 }
