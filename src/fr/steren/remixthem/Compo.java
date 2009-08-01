@@ -159,7 +159,7 @@ public class Compo {
 	 * Save the compo as a Bitmap
 	 */
 	public Bitmap saveAsBitmap() {
-		Bitmap bitmap = Bitmap.createBitmap(mBackgroundFace.getDrawable().getBitmap());
+		Bitmap bitmap = Bitmap.createBitmap(mBackgroundFace.getBitmap());
 		Canvas c = new Canvas(bitmap);
 		
 		//test

@@ -15,7 +15,8 @@ import android.util.Log;
 
 public class BackgroundFace {
 	
-	private BitmapDrawable mDrawable;
+	private BitmapDrawable 	mDrawable;
+	private Bitmap 			mBitmap;
 	
 	private boolean mFaceDetected;
 		
@@ -56,7 +57,7 @@ public class BackgroundFace {
         
 	        // load the picture of the face
 	        mDrawable = new BitmapDrawable(faceBitmap);
-	
+	        mBitmap = faceBitmap;
 	        //Create the eyes, nose and mouth FaceParts
 	        BitmapFactory.Options alphaOptions = new BitmapFactory.Options();
 	        alphaOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -124,7 +125,11 @@ public class BackgroundFace {
 	public BitmapDrawable getDrawable() {
 		return mDrawable;
 	}
-
+	
+	public Bitmap getBitmap() {
+		return mBitmap;
+	}
+	
 	public PointF getEyesDetectedPosition() {
 		return mEyesDetectedPosition;
 	}

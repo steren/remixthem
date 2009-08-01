@@ -55,10 +55,9 @@ public class RemixThemEditor extends Activity {
         builder.setIcon(R.drawable.ok_icon);
 	    builder.setTitle(R.string.start);
 	    builder.setMessage(R.string.start_message);
-	    //TODO use string
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //take picture
+            	//take picture
                 takePicture();
             }
         });
@@ -95,9 +94,11 @@ public class RemixThemEditor extends Activity {
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomPreset();
             return true;
+        case R.id.send:
+        	send();
+        	return true;
         case R.id.save:
         	saveOnDisk();
-
             return true;
         }
         return false;
@@ -131,24 +132,33 @@ public class RemixThemEditor extends Activity {
     private void takePicture() {
     	Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
+    	//TODO 
+    	// mettre l'uri d'un bitmap dans les extras de l'intent
     }
 
     private void saveOnDisk() {
-   	       
+   	    //First create the directory if it doesn't exist
+    	File directory = new File(Environment.getExternalStorageDirectory(), "RemixThem");
+    	if(!directory.exists())
+    	{  	
+    		directory.mkdir();
+    	}  	
+    	
         File file1 ;
         FileOutputStream outputStream = null;
 		try {
-			file1 = new File(Environment.getExternalStorageDirectory() + "/remixthem", computeFileName()+ ".jpg");
+			file1 = new File(directory, computeFileName()+ ".jpg");
 	        file1.createNewFile();
 	        
 			outputStream = new FileOutputStream(file1);
 			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
 			outputStream.close();
+		
 		} catch (FileNotFoundException e1) {
-			Toast.makeText(this, "File not found",Toast.LENGTH_SHORT).show(); 
+			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_SHORT).show(); 
 			e1.printStackTrace();
 		} catch (IOException e) {
-			Toast.makeText(this, "Can't write in file",Toast.LENGTH_SHORT).show(); 
+			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_SHORT).show(); 
 			e.printStackTrace();
 		} finally {
 			if (outputStream != null) {
@@ -158,7 +168,7 @@ public class RemixThemEditor extends Activity {
 					// ignore exception
 				}
 			}
-		}	
+		}
     }
     
     private String computeFileName() {
@@ -166,4 +176,32 @@ public class RemixThemEditor extends Activity {
 	        Date date = new Date();
 	        return "remix_"+ dateFormat.format(date);
 	    }
+    
+    private void send() {
+    	Uri tempUri = null;
+    	String fileName = "RemixThem.jpg";
+    	try {
+			File path = getFileStreamPath(fileName);
+			path.delete();
+    		
+    		FileOutputStream filestream = this.openFileOutput(fileName, 0);
+			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, filestream);
+			filestream.close();
+			tempUri = Uri.fromFile(path);
+			
+		} catch (FileNotFoundException e) {
+			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_SHORT).show(); 
+			e.printStackTrace();
+		} catch (IOException e) {
+			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_SHORT).show(); 
+			e.printStackTrace();
+		}
+
+    	Intent email = new Intent(Intent.ACTION_SEND);
+    	email.putExtra(Intent.EXTRA_STREAM, tempUri );
+    	email.setType("image/*"); 
+    	startActivity(email);  	
+    
+    }
+    
 }
