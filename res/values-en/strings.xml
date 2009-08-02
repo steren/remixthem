@@ -12,7 +12,7 @@
 
     
     <string name="takepicture">Take a picture of friend\'s face</string>
-    
+    <string name="saved">Remix saved</string>    
     
     <string name="BTN_preferences">Preferences</string>
     
@@ -20,7 +20,7 @@
     <string name="BTN_edit">Edit</string>
     <string name="BTN_ugly">Ugly</string>
     <string name="BTN_mix">Mix</string>
-    <string name="BTN_done">Done</string>
+    <string name="BTN_done">Save</string>
     <string name="BTN_send">Share</string>
     <string name="BTN_remixfriend">Edit a friend</string>
     <string name="BTN_mixfriends">Mix friends</string>

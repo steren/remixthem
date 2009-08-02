@@ -1,12 +1,8 @@
 package fr.steren.remixthem;
 
-import java.io.File;
-import java.io.FileFilter;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;

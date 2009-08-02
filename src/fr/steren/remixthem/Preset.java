@@ -3,19 +3,22 @@ package fr.steren.remixthem;
 import java.util.ArrayList;
 
 public class Preset {
-	
-    public Preset(ArrayList<CompoPartParams> paramList) {
-		super();
-		mParamList = paramList;
-	}
 
 	private ArrayList<CompoPartParams> mParamList;
-
-	public ArrayList<CompoPartParams> getParamList() {
-		return mParamList;
+	
+    public Preset(ArrayList<CompoPartParams> paramList) {
+		mParamList = paramList;
 	}
 
-	public void setParams(ArrayList<CompoPartParams> paramList) {
-		mParamList = paramList;
+    public Preset() {
+		mParamList = new ArrayList<CompoPartParams>(3) ;
+	}
+    
+    public void addParams(int iCompoPart, CompoPartParams params) {
+    	mParamList.set(iCompoPart, params);
+    }
+    
+	public ArrayList<CompoPartParams> getParamList() {
+		return mParamList;
 	}
 }

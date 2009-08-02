@@ -34,20 +34,9 @@ public class RemixThemEditor extends Activity {
         super.onCreate(savedInstanceState);
         mRemixThemView = new RemixThemView(this);
 
-        //DEBUG Uncomment this to auto-load pictures
-//        BitmapFactory.Options bfo = new BitmapFactory.Options();
-//        bfo.inPreferredConfig = Bitmap.Config.RGB_565;
-//        Bitmap faceBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.test_faces_cab , bfo);
-//        mRemixThemView.addHead(this, faceBitmap);
-//        Bitmap faceBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.test_faces_poly , bfo);
-//        mRemixThemView.addHead(this, faceBitmap2);
-        //End DEBUG
-
         setContentView(mRemixThemView);
         mRemixThemView.requestFocus();
                
-        //Toast.makeText(this, R.string.takepicture, Toast.LENGTH_LONG).show(); 
-
         //small alert
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ok_icon);
@@ -122,7 +111,6 @@ public class RemixThemEditor extends Activity {
                 //addImage(data.getData());
                 break;
             default:
-                // TODO
                 break;
         }
     }
@@ -152,6 +140,8 @@ public class RemixThemEditor extends Activity {
 			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
 			outputStream.close();
 		
+			Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show(); 
+			
 		} catch (FileNotFoundException e1) {
 			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_SHORT).show(); 
 			e1.printStackTrace();

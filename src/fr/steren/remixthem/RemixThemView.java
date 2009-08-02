@@ -3,6 +3,9 @@ package fr.steren.remixthem;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import fr.steren.remixthem.Compo.EditAction;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,7 +18,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -359,21 +364,35 @@ class RemixThemView extends View {
 	 * @param context
 	 */
 	private void loadPresets(Context context) {
-		try {
-			XmlResourceParser presetsXML = context.getAssets().openXmlResourceParser("presets.xml");
-		} catch (IOException e) {
-		}
 
-		//TODO load from XML
-		
-		ArrayList<CompoPartParams> paramlist = new ArrayList<CompoPartParams>();
-		CompoPartParams eyesParams = new CompoPartParams(new PointF((float) 0.0, (float) -0.1) );
-		paramlist.add(eyesParams);
-		CompoPartParams noseParams = new CompoPartParams(new PointF((float) 0.0, (float) 0.4) );
-		paramlist.add(noseParams);
-		CompoPartParams mouthParams = new CompoPartParams(new PointF((float) 0.0, (float) 1.1) );
-		paramlist.add(mouthParams);
-		Preset preset = new Preset(paramlist);
+			XmlResourceParser parser;
+			
+			try {
+				
+				parser = context.getAssets().openXmlResourceParser("presets.xml");
+				
+				while (parser.next() != XmlResourceParser.END_DOCUMENT) {
+					if(parser.getEventType() == XmlResourceParser.START_TAG && parser.getName() == "preset") {
+						mPresets.add( extractPreset(parser) );
+			        }
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (XmlPullParserException e) {
+				e.printStackTrace();
+			}
+
+
+		//FIXME remove this when XML loading is ok
+			/*
+		ArrayList<CompoPartParams> paramlist1 = new ArrayList<CompoPartParams>();
+		CompoPartParams eyesParams1 = new CompoPartParams(new PointF((float) 0.0, (float) -0.1) );
+		paramlist1.add(eyesParams1);
+		CompoPartParams noseParams1 = new CompoPartParams(new PointF((float) 0.0, (float) 0.4) );
+		paramlist1.add(noseParams1);
+		CompoPartParams mouthParams1 = new CompoPartParams(new PointF((float) 0.0, (float) 1.1) );
+		paramlist1.add(mouthParams1);
+		Preset preset1 = new Preset(paramlist1);
 
 		ArrayList<CompoPartParams> paramlist2 = new ArrayList<CompoPartParams>();
 		CompoPartParams eyesParams2 = new CompoPartParams(new PointF((float) 0.0, (float) -0.1), (float)10.0, (float)1.5);
@@ -384,9 +403,58 @@ class RemixThemView extends View {
 		paramlist2.add(mouthParams2);
 		Preset preset2 = new Preset(paramlist2);
 
-		mPresets.add(preset);
-		mPresets.add(preset2);
+		mPresets.add(preset1);
+		mPresets.add(preset2);*/
 
+	}
+
+	private Preset extractPreset(XmlResourceParser parser) {
+		CompoPartParams eyesParams;
+		CompoPartParams noseParams;
+		CompoPartParams mouthParams;
+		Preset preset = new Preset();
+		
+		try {
+			while (parser.next() != XmlResourceParser.END_TAG && parser.getName() == "preset") {
+				if (parser.getName() == "eyes") {
+					eyesParams = extractParamsFromAttributes(parser);
+					preset.addParams(0, eyesParams);
+				} else if (parser.getName() == "nose") {
+					noseParams = extractParamsFromAttributes(parser);
+					preset.addParams(1, noseParams);
+				} else if (parser.getName() == "mouth") {
+					mouthParams = extractParamsFromAttributes(parser);
+					preset.addParams(2, mouthParams);
+				}
+			}
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		return preset;
+	}
+	
+	private CompoPartParams extractParamsFromAttributes(XmlResourceParser parser) {
+		float fCenterPositionX = 0.f;
+		float fCenterPositionY = 0.f;
+		float fRotation = 0.f;
+		float fScale = 1.f;
+		
+		for( int i = 0; i < parser.getAttributeCount(); i++) {
+			if(parser.getAttributeName(i) == "centerPositionX") {
+				fCenterPositionX = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
+			}else if(parser.getAttributeName(i) == "centerPositionY") {
+				fCenterPositionY = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
+			}else if(parser.getAttributeName(i) == "rotation") {
+				fRotation = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
+			}else if(parser.getAttributeName(i) == "scale") {
+				fScale = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
+			}
+		}
+		return new CompoPartParams(new PointF(fCenterPositionX, fCenterPositionY) , fRotation , fScale);
 	}
 
 	
