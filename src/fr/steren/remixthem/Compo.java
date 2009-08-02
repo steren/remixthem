@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import java.lang.Math;
 
@@ -79,7 +81,7 @@ public class Compo {
 		RectF bounds = new RectF(centerPosition.x - partWidth/2, centerPosition.y - partHeight/2, centerPosition.x + partWidth/2, centerPosition.y + partHeight/2);
 		return bounds;
 	}
-
+	
 	/**
 	 * Return the CompoPart Width, relatively to the image width (in [0,1])
 	 */
@@ -158,15 +160,26 @@ public class Compo {
 	 */
 	public Bitmap saveAsBitmap() {
 		Bitmap bitmap = Bitmap.createBitmap(mBackgroundFace.getBitmap());
-		Canvas c = new Canvas(bitmap);
+		Canvas canvas = new Canvas(bitmap);
 		
-		//test
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-    	paint.setARGB(220, 255, 255, 255);
-	    c.drawCircle(10, 10, 10, paint);
-		
+        for( CompoPart compoPart : getCompoParts()) {
+        	RectF boundsF = computeBounds(compoPart);
+        	Rect bounds = new Rect(	(int) (boundsF.left * mBackgroundFace.getBitmap().getWidth()),
+        							(int) (boundsF.top * mBackgroundFace.getBitmap().getHeight()), 
+        							(int) (boundsF.right * mBackgroundFace.getBitmap().getWidth()), 
+        							(int) (boundsF.bottom * mBackgroundFace.getBitmap().getHeight()) );
+
+        	PointF center = computeCenterPosition(compoPart);
+        	center.x = center.x * mBackgroundFace.getBitmap().getWidth();
+        	center.y = center.y * mBackgroundFace.getBitmap().getHeight();
+        	
+			compoPart.getFacePart().getDrawable().setBounds(bounds);
+        	canvas.save();
+        	canvas.rotate(compoPart.getParams().getRotation(), center.x, center.y);
+        	compoPart.getFacePart().getDrawable().draw(canvas);
+        	canvas.restore();	        	
+        }
+        
 		return bitmap;
 	}
-	
 }
