@@ -63,7 +63,7 @@ public class BackgroundFace {
 	        mFaceParts = new ArrayList<FacePart>();
 	        
 	        Bitmap alphaMaskEyes = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_eyes, alphaOptions);
-	        BitmapDrawable eyesDrawable = extractFacePart(faceBitmap, 2.2f, 1.2f, 0.f, -0.1f, alphaMaskEyes);
+	        BitmapDrawable eyesDrawable = extractFacePart(faceBitmap, 2.0f, 1.2f, 0.f, -0.1f, alphaMaskEyes);
 			mFaceParts.add( new FacePart(eyesDrawable, eyesDrawable.getIntrinsicWidth()/mEyesDetectedDistance , eyesDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.05f, 0.15f) );
 	
 	        Bitmap alphaMaskNose = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_nose, alphaOptions);

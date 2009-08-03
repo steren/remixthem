@@ -74,6 +74,20 @@
                 android:singleLine="true"
                 android:layout_marginBottom="35dip"
             />
+
+            <Button
+                android:id="@+id/mix_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/beta"
+                android:background="@drawable/main_menu_button"
+                android:text="do not share"
+                android:ellipsize="marquee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimaryDisableOnly"
+                android:singleLine="true"
+                android:layout_marginBottom="35dip"
+            />
             
         </LinearLayout>
 

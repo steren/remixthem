@@ -395,32 +395,6 @@ class RemixThemView extends View {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-
-
-		//FIXME remove this when XML loading is ok
-			/*
-		ArrayList<CompoPartParams> paramlist1 = new ArrayList<CompoPartParams>();
-		CompoPartParams eyesParams1 = new CompoPartParams(new PointF((float) 0.0, (float) -0.1) );
-		paramlist1.add(eyesParams1);
-		CompoPartParams noseParams1 = new CompoPartParams(new PointF((float) 0.0, (float) 0.4) );
-		paramlist1.add(noseParams1);
-		CompoPartParams mouthParams1 = new CompoPartParams(new PointF((float) 0.0, (float) 1.1) );
-		paramlist1.add(mouthParams1);
-		Preset preset1 = new Preset(paramlist1);
-
-		ArrayList<CompoPartParams> paramlist2 = new ArrayList<CompoPartParams>();
-		CompoPartParams eyesParams2 = new CompoPartParams(new PointF((float) 0.0, (float) -0.1), (float)10.0, (float)1.5);
-		paramlist2.add(eyesParams2);
-		CompoPartParams noseParams2 = new CompoPartParams(new PointF((float) 1.0, (float) 0.4) );
-		paramlist2.add(noseParams2);
-		CompoPartParams mouthParams2 = new CompoPartParams(new PointF((float) 0.0, (float) 1.1), (float)0.0, (float)0.5 );
-		paramlist2.add(mouthParams2);
-		Preset preset2 = new Preset(paramlist2);
-
-		mPresets.add(preset1);
-		mPresets.add(preset2);*/
-
 	}
 
 	private Preset extractPreset(XmlPullParser parser) {

@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <presets>
-<preset name="std">
+<!-- De base 
+<preset name="base">
 	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="1.0" />
 	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="1.0" />
 	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="0.0"  scale="1.0" />
 </preset>
+-->
 
-<preset name="test">
-	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="2.0" />
-	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="0.5" />
-	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="10.0"  scale="1.0" />
+<!-- Validées -->
+
+<preset name="Hey mon ami">
+	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="1.2" />
+	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="1.0" />
+	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="0.0"  scale="1.4" />
 </preset>
+
+<preset name="excuse me">
+	<eyes centerPositionX="0.0" centerPositionY="-0.2" rotation="0.0"  scale="1.0" />
+	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="0.9" />
+	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="0.0"  scale="0.8" />
+</preset>
+
+<preset name="snif">
+	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="1.0" />
+	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="1.4" />
+	<mouth centerPositionX="0.0" centerPositionY="1.2" rotation="0.0"  scale="1.0" />
+</preset>
+
+<preset name="Beeteljuice">
+	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="0.9" />
+	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="1.0" />
+	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="4.0"  scale="1.2" />
+</preset>
+
+<preset name="Frankeinskein">
+	<eyes centerPositionX="0.0" centerPositionY="0.1" rotation="1.0"  scale="1.0" />
+	<nose centerPositionX="0.0" centerPositionY="0.3" rotation="0.0"  scale="1.0" />
+	<mouth centerPositionX="0.0" centerPositionY="1.0" rotation="-3.0"  scale="1.0" />
+</preset>
+
+<preset name="slanted-eye">
+	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="-5.0"  scale="1.0" />
+	<nose centerPositionX="0.1" centerPositionY="0.4" rotation="-1.0"  scale="1.07" />
+	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="7.0"  scale="1.0" />
+</preset>
+
+<preset name="almost normal">
+	<eyes centerPositionX="0.0" centerPositionY="-0.1" rotation="0.0"  scale="1.15" />
+	<nose centerPositionX="0.0" centerPositionY="0.4" rotation="0.0"  scale="1.0" />
+	<mouth centerPositionX="0.0" centerPositionY="1.1" rotation="0.0"  scale="1.0" />
+</preset>
+
+<!-- Non validés -->
 
 </presets>
