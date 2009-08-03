@@ -1,10 +1,13 @@
 package fr.steren.remixthem;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import fr.steren.remixthem.Compo.EditAction;
 import android.app.AlertDialog;
@@ -364,23 +367,35 @@ class RemixThemView extends View {
 	 * @param context
 	 */
 	private void loadPresets(Context context) {
-
-			XmlResourceParser parser;
-			
+		
+			XmlPullParserFactory factory;
+			InputStream inputStream;
 			try {
+				inputStream = context.getAssets().open("presets.xml");
+								
+				factory = XmlPullParserFactory.newInstance();
+				factory.setNamespaceAware(true);
+				XmlPullParser parser = factory.newPullParser();
+				parser.setInput(inputStream, null );
+				int eventType = parser.getEventType();
+
 				
-				parser = context.getAssets().openXmlResourceParser("presets.xml");
-				
-				while (parser.next() != XmlResourceParser.END_DOCUMENT) {
-					if(parser.getEventType() == XmlResourceParser.START_TAG && parser.getName() == "preset") {
-						mPresets.add( extractPreset(parser) );
+				while (eventType != XmlResourceParser.END_DOCUMENT) {
+					if(eventType == XmlResourceParser.START_TAG) {
+						if (parser.getName().equals("preset")) {
+							mPresets.add( extractPreset(parser) );
+						}
 			        }
+					eventType = parser.next();
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (XmlPullParserException e) {
+				
+				
+			} catch (XmlPullParserException e2) {
+				e2.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 
 
 		//FIXME remove this when XML loading is ok
@@ -408,25 +423,40 @@ class RemixThemView extends View {
 
 	}
 
-	private Preset extractPreset(XmlResourceParser parser) {
+	private Preset extractPreset(XmlPullParser parser) {
 		CompoPartParams eyesParams;
 		CompoPartParams noseParams;
 		CompoPartParams mouthParams;
 		Preset preset = new Preset();
 		
 		try {
-			while (parser.next() != XmlResourceParser.END_TAG && parser.getName() == "preset") {
-				if (parser.getName() == "eyes") {
-					eyesParams = extractParamsFromAttributes(parser);
-					preset.addParams(0, eyesParams);
-				} else if (parser.getName() == "nose") {
-					noseParams = extractParamsFromAttributes(parser);
-					preset.addParams(1, noseParams);
-				} else if (parser.getName() == "mouth") {
-					mouthParams = extractParamsFromAttributes(parser);
-					preset.addParams(2, mouthParams);
+			int eventType = parser.getEventType();
+			boolean bContinue = true;
+			
+			while ( bContinue ) {
+				if(eventType == XmlResourceParser.START_TAG) {
+					if (parser.getName().equals("eyes")) {
+						eyesParams = extractParamsFromAttributes(parser);
+						preset.addParams(0, eyesParams);
+					} else if (parser.getName().equals("nose")) {
+						noseParams = extractParamsFromAttributes(parser);
+						preset.addParams(1, noseParams);
+					} else if ( parser.getName().equals("mouth")) {
+						mouthParams = extractParamsFromAttributes(parser);
+						preset.addParams(2, mouthParams);
+					}
+				}
+				
+				eventType = parser.next();
+				
+				if ( eventType == XmlResourceParser.END_TAG ) {
+					if (parser.getName().equals("preset")) {
+						bContinue = false;
+					}
 				}
 			}
+			
+			
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -437,20 +467,20 @@ class RemixThemView extends View {
 		return preset;
 	}
 	
-	private CompoPartParams extractParamsFromAttributes(XmlResourceParser parser) {
+	private CompoPartParams extractParamsFromAttributes(XmlPullParser parser) {
 		float fCenterPositionX = 0.f;
 		float fCenterPositionY = 0.f;
 		float fRotation = 0.f;
 		float fScale = 1.f;
 		
 		for( int i = 0; i < parser.getAttributeCount(); i++) {
-			if(parser.getAttributeName(i) == "centerPositionX") {
+			if(parser.getAttributeName(i).equals("centerPositionX")) {
 				fCenterPositionX = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
-			}else if(parser.getAttributeName(i) == "centerPositionY") {
+			}else if(parser.getAttributeName(i).equals("centerPositionY")) {
 				fCenterPositionY = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
-			}else if(parser.getAttributeName(i) == "rotation") {
+			}else if(parser.getAttributeName(i).equals("rotation")) {
 				fRotation = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
-			}else if(parser.getAttributeName(i) == "scale") {
+			}else if(parser.getAttributeName(i).equals("scale")) {
 				fScale = Float.valueOf( parser.getAttributeValue(i).trim() ).floatValue();
 			}
 		}

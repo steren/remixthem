@@ -15,7 +15,7 @@ public class Preset {
 	}
     
     public void addParams(int iCompoPart, CompoPartParams params) {
-    	mParamList.set(iCompoPart, params);
+    	mParamList.add(iCompoPart, params);
     }
     
 	public ArrayList<CompoPartParams> getParamList() {
