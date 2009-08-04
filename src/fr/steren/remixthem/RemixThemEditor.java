@@ -19,12 +19,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class RemixThemEditor extends Activity {
+	
     public static final int REQUEST_CODE_TAKE_PICTURE   = 1;
     public static final int REQUEST_CODE_USE_IMAGE     	= 2;
 
+    private int mEditor; 
     
     /** A handle to the View in which the RemixThem is running. */
     private RemixThemView mRemixThemView;    
@@ -32,13 +35,26 @@ public class RemixThemEditor extends Activity {
     /** Called when the activity is first created. */ 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //Get the Editor (mix = 0 or remix = 1)
+        mEditor = getIntent().getExtras().getInt("Editor");
+        
         mRemixThemView = new RemixThemView(this);
 
-        setContentView(mRemixThemView);
-        mRemixThemView.requestFocus();
-               
+        //setContentView(mRemixThemView);
+        //mRemixThemView.requestFocus();
+          
+        setContentView(R.layout.editormenu);
+
+        Button button_take = (Button) findViewById(R.id.button_take);
+        button_take.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	takePicture();
+            }
+        });
+        
         //small alert
-	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ok_icon);
 	    builder.setTitle(R.string.start);
 	    builder.setMessage(R.string.start_message);
@@ -49,16 +65,17 @@ public class RemixThemEditor extends Activity {
             }
         });
         AlertDialog alert = builder.create();
-        alert.show();	
-        
+        alert.show();*/
 
-        
-        
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.menu_remix, menu);
+    	if( mEditor == 1 ) {
+    		inflater.inflate(R.menu.menu_mix, menu);
+    	}else {
+    		inflater.inflate(R.menu.menu_remix, menu);
+    	}
     	return true;
     }
     
@@ -99,16 +116,18 @@ public class RemixThemEditor extends Activity {
 
                 if (faceBitmap == null) {
                 	Log.e("RemixThem", "Take Photo Fail, bitmap null");
-                	setTitle("Problemwith picture : Bitmap null");
+        			Toast.makeText(this, "Error : Bitmap null",Toast.LENGTH_SHORT).show(); 
                     return;
                 }
                 mRemixThemView.addHead(this, faceBitmap);
-                setTitle("Picture received");
+                
+                if(mEditor == 0 || mRemixThemView.getHeadNumber() > 1) {
+                	setContentView(mRemixThemView);
+                }
                 break;
 
             case REQUEST_CODE_USE_IMAGE:
                 setTitle("Image received");
-                //addImage(data.getData());
                 break;
             default:
                 break;
@@ -143,10 +162,10 @@ public class RemixThemEditor extends Activity {
 			Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show(); 
 			
 		} catch (FileNotFoundException e1) {
-			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_SHORT).show(); 
+			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_LONG).show(); 
 			e1.printStackTrace();
 		} catch (IOException e) {
-			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_SHORT).show(); 
+			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_LONG).show(); 
 			e.printStackTrace();
 		} finally {
 			if (outputStream != null) {

@@ -361,6 +361,14 @@ class RemixThemView extends View {
 	        alert.show();	    	
 	    }
 	}
+
+	/**
+	 * How many heads are in the system ?
+	 * @return number of heads
+	 */
+	public final int getHeadNumber() {
+		return mHeads.size();
+	}
 	
 	/**
 	 * Load the presets configuration file

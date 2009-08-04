@@ -6,19 +6,25 @@
     
     <string name="start">Hello,</string>
     <string name="start_message">Start by taking a picture of a friend\'s face.</string>
+    
+    <string name="select_picture">Hello, start by selecting a picture of a friend\'s face.</string>
+    <string name="picture_take">New picture</string>
+    <string name="picture_load">Existing image</string>
+    <string name="picture_contact">Contact picture</string>
         
     <string name="nofacedetected">Sorry,</string>
     <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nWould you like to take a new one ?</string>
 
     
     <string name="takepicture">Take a picture of friend\'s face</string>
-    <string name="saved">Remix saved</string>    
+    <string name="saved">Image saved</string>    
     
     <string name="BTN_preferences">Preferences</string>
     
     <string name="BTN_change">Change</string>
     <string name="BTN_edit">Edit</string>
     <string name="BTN_ugly">Ugly</string>
+    <string name="BTN_reset">Reset</string>
     <string name="BTN_mix">Mix</string>
     <string name="BTN_done">Save</string>
     <string name="BTN_send">Share</string>

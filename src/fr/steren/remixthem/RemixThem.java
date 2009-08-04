@@ -39,11 +39,15 @@ public class RemixThem extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.remix_button:
             	intent = new Intent(this, RemixThemEditor.class);
+            	//send info on which editor to start
+            	intent.putExtra("Editor", 0);
                 startActivity(intent);
                 break;
             case R.id.mix_button:
             	intent = new Intent(this, RemixThemEditor.class);
-                startActivity(intent);
+            	//send info on which editor to start
+            	intent.putExtra("Editor", 1);
+            	startActivity(intent);
                 break;
             case R.id.gallery_button:
             	intent = new Intent(this, RemixThemGrid.class);

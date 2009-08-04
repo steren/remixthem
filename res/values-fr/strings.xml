@@ -7,18 +7,24 @@
     <string name="start">Bonjour,</string>
     <string name="start_message">Commencez par prendre en photo le visage d\'un ami.</string>
     
+    <string name="select_picture">Bonjour, commencez par sélectionner une photo du visage d\'un ami.</string>
+    <string name="picture_take">Nouvelle photo</string>
+    <string name="picture_load">Charger Image</string>
+    <string name="picture_contact">Photo de contact</string>
+    
     <string name="nofacedetected">Désolé,</string>
     <string name="nofacedetected_message">Je ne trouve pas de visage dans cette photo.\nVoulez vous en prendre une nouvelle ?</string>
 
 
     <string name="takepicture">Prenez en photo le visage d\'un ami</string>
-    <string name="saved">Remix enregistré</string>    
+    <string name="saved">Image enregistré</string>    
     
     <string name="BTN_preferences">Préférences</string>
     
     <string name="BTN_change">Changer</string>
     <string name="BTN_edit">Editer</string>
     <string name="BTN_ugly">Laid</string>
+    <string name="BTN_reset">Normal</string>
     <string name="BTN_mix">Mélanger</string>
     <string name="BTN_done">Enregistrer</string>
     <string name="BTN_send">Partager</string>
