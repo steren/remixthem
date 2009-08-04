@@ -8,10 +8,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.w3c.dom.Text;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RemixThemEditor extends Activity {
@@ -40,11 +44,11 @@ public class RemixThemEditor extends Activity {
         mEditor = getIntent().getExtras().getInt("Editor");
         
         mRemixThemView = new RemixThemView(this);
-
-        //setContentView(mRemixThemView);
-        //mRemixThemView.requestFocus();
           
         setContentView(R.layout.editormenu);
+        
+        TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
+        hello_text.setText(R.string.hello_editor);
 
         Button button_take = (Button) findViewById(R.id.button_take);
         button_take.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +57,6 @@ public class RemixThemEditor extends Activity {
             }
         });
         
-        //small alert
-	    /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ok_icon);
-	    builder.setTitle(R.string.start);
-	    builder.setMessage(R.string.start_message);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            	//take picture
-                takePicture();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();*/
-
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,14 +106,35 @@ public class RemixThemEditor extends Activity {
 
                 if (faceBitmap == null) {
                 	Log.e("RemixThem", "Take Photo Fail, bitmap null");
-        			Toast.makeText(this, "Error : Bitmap null",Toast.LENGTH_SHORT).show(); 
-                    return;
+        			Toast.makeText(this, "Error : Bitmap null",Toast.LENGTH_LONG).show(); 
+                            			
+        			return;
                 }
-                mRemixThemView.addHead(this, faceBitmap);
                 
+                if (mRemixThemView.addHead(this, faceBitmap) == false)
+                {
+        		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        	        builder.setIcon(R.drawable.alert_icon);
+        		    builder.setTitle(R.string.nofacedetected);
+        		    builder.setMessage(R.string.nofacedetected_message);
+        	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        	            public void onClick(DialogInterface dialog, int whichButton) {
+        	            }
+        	        });
+        	        AlertDialog alert = builder.create();
+        	        alert.show();
+        	        
+        	        return; 
+                }
+                
+                //if everything succeeded
                 if(mEditor == 0 || mRemixThemView.getHeadNumber() > 1) {
                 	setContentView(mRemixThemView);
+                }else if(mRemixThemView.getHeadNumber()==1) {
+                    TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
+                    hello_text.setText(R.string.new_picture_editor);
                 }
+        
                 break;
 
             case REQUEST_CODE_USE_IMAGE:

@@ -5,10 +5,10 @@
     android:orientation="vertical" >
 
 
-    <TextView android:id="@+id/text"
+    <TextView android:id="@+id/hello_editor_text"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/select_picture" />
+              android:text="Hello" />
 
     <Button android:id="@+id/button_take"
             android:layout_width="wrap_content"

@@ -336,30 +336,19 @@ class RemixThemView extends View {
 	 * add a new face to the Heads vector
 	 * @param context	: context of the activity
 	 * @param faceBitmap : the Bitmap of the new face
+	 * @return if a face was detectedor not.
 	 */
-	public void addHead(Context context, Bitmap faceBitmap) {
+	public boolean addHead(Context context, Bitmap faceBitmap) {
 	    BackgroundFace backgroundface = new BackgroundFace(context, faceBitmap);
 	    
-	    //TODO use exceptions ?
 	    if(backgroundface.isFaceDetected()) {
 		    if(mHeads.isEmpty()) {
 		    	mActiveCompo = new Compo(backgroundface);
 		    }
 		    mHeads.add(backgroundface);	    	
-	    }else{
-		    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	        builder.setIcon(R.drawable.alert_icon);
-		    builder.setTitle(R.string.nofacedetected);
-		    builder.setMessage(R.string.nofacedetected_message);
-		    //TODO use string
-	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialog, int whichButton) {
-	                // do some stuff?
-	            }
-	        });
-	        AlertDialog alert = builder.create();
-	        alert.show();	    	
 	    }
+	    
+	    return backgroundface.isFaceDetected();
 	}
 
 	/**
