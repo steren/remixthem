@@ -128,11 +128,17 @@ public class RemixThemEditor extends Activity {
                 }
                 
                 //if everything succeeded
-                if(mEditor == 0 || mRemixThemView.getHeadNumber() > 1) {
+                if(mEditor == 0) { //If we are in edit mode
+                	//select a random preset
+                	mRemixThemView.randomPreset();
                 	setContentView(mRemixThemView);
-                }else if(mRemixThemView.getHeadNumber()==1) {
+                } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
                     TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
                     hello_text.setText(R.string.new_picture_editor);
+                } else if ( mEditor == 1 && mRemixThemView.getHeadNumber() > 1) { //if we ask 2 pictures and have 2
+                	//randomize the face
+                	mRemixThemView.randomize();
+                	setContentView(mRemixThemView);
                 }
         
                 break;

@@ -21,8 +21,6 @@ public class RemixThem extends Activity implements View.OnClickListener {
 
         b = (View) findViewById(R.id.gallery_button);
         b.setOnClickListener(this);
-
-    	
     	
     }
 
