@@ -88,6 +88,10 @@ public class RemixThemEditor extends Activity {
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomPreset();
             return true;
+        case R.id.reset:
+        	mRemixThemView.noActiveCompoPart();
+        	mRemixThemView.resetParams();
+        	return true;
         case R.id.send:
         	send();
         	return true;

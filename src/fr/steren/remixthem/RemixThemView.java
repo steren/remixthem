@@ -303,6 +303,14 @@ class RemixThemView extends View {
 			invalidate();  
 		}
 	}
+	
+	/**
+	 * reset the parameters of all the compopart of the composition.
+	 */
+	public void resetParams() {
+		mActiveCompo.resetCompoPartParams();
+		invalidate();
+	}
 
 	private Rect computeCompoPartBoundsOnScreen(CompoPart compoPart){
 		RectF rect = mActiveCompo.computeBounds(compoPart);
@@ -457,6 +465,5 @@ class RemixThemView extends View {
 		}
 		return new CompoPartParams(new PointF(fCenterPositionX, fCenterPositionY) , fRotation , fScale);
 	}
-
 	
 }

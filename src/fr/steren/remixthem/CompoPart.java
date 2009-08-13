@@ -4,11 +4,13 @@ public class CompoPart {
 		
 	private FacePart mFacePart;
 	private CompoPartParams mParams;
+	private CompoPartParams mOriginalParams;
 	
 	public CompoPart(FacePart facePart, CompoPartParams params) {
 		super();
 		mFacePart = facePart;
 		mParams = params;
+		mOriginalParams = params;
 	}
 
 	public FacePart getFacePart() {
@@ -27,7 +29,9 @@ public class CompoPart {
 		mParams = params;
 	}
 	
-	
+	public void resetParams() {
+		mParams = mOriginalParams;
+	}
 	
 }
 

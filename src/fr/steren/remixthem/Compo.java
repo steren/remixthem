@@ -180,4 +180,10 @@ public class Compo {
         
 		return bitmap;
 	}
+	
+	public void resetCompoPartParams() {
+        for( CompoPart compoPart : getCompoParts()) {
+        	compoPart.resetParams();
+        }
+	}
 }
