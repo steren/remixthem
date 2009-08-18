@@ -32,7 +32,14 @@ public class RemixThemEditor extends Activity {
     public static final int REQUEST_CODE_TAKE_PICTURE   = 1;
     public static final int REQUEST_CODE_USE_IMAGE     	= 2;
 
-    private int mEditor; 
+    /** Which Editor are we using (mix = 0 or remix = 1) */
+    private int mEditor;
+    
+    /** If the menu has been displayed */
+    private boolean mMenuDisplayed;
+    
+    /** If photo(s) have been load, display the editor */
+    private boolean mReadyToEdit;
     
     /** A handle to the View in which the RemixThem is running. */
     private RemixThemView mRemixThemView;    
@@ -58,6 +65,9 @@ public class RemixThemEditor extends Activity {
             }
         });
         
+        mMenuDisplayed = false;
+        mReadyToEdit = false;
+        
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,7 +77,32 @@ public class RemixThemEditor extends Activity {
     	}else {
     		inflater.inflate(R.menu.menu_remix, menu);
     	}
+    	
+    	displayMenu(menu, false);
+    	
     	return true;
+    }
+    
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	
+    	if(!mMenuDisplayed) {
+    		if(mReadyToEdit) {
+    			displayMenu(menu, true);
+    			mMenuDisplayed = true;
+    		}
+    	}
+    	return true;
+    }
+    
+    /**
+     * Display or hide the menu
+     * @param menu  : Menu to operate on
+     * @param visible : display this menu or not
+     */
+    private void displayMenu(Menu menu, boolean visible) {
+    	for( int i = 0; i < menu.size(); i++) {
+    		menu.getItem(i).setVisible(visible);
+    	}
     }
     
     /* Handles item selections */
@@ -137,6 +172,7 @@ public class RemixThemEditor extends Activity {
                 	//select a random preset
                 	mRemixThemView.randomPreset();
                 	setContentView(mRemixThemView);
+                	mReadyToEdit = true;
                 } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
                     TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
                     hello_text.setText(R.string.new_picture_editor);
@@ -144,6 +180,7 @@ public class RemixThemEditor extends Activity {
                 	//randomize the face
                 	mRemixThemView.randomize();
                 	setContentView(mRemixThemView);
+                	mReadyToEdit = true;
                 }
         
                 break;
