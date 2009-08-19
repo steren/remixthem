@@ -11,16 +11,21 @@ public class CompoPartParams {
 	private float mRotation;
 	private float mScale;
 	
+	/** extrema of the scale */
+	private float mMinimumScale;
+	private float mMaximumScale;	
+	
 	public CompoPartParams(PointF centerPosition, float rotation, float scale) {
 		mCenterPosition = centerPosition;
 		mRotation = rotation;
 		mScale = scale;
+		
+		mMinimumScale = 0.7f;
+		mMaximumScale = 2.0f;
 	}
 
 	public CompoPartParams(PointF centerPosition) {
-		mCenterPosition = centerPosition;
-		mRotation = 0.f;
-		mScale = 1.f;
+		this(centerPosition, 0.f, 1.f);
 	}
 	
 	public PointF getCenterPosition() {
@@ -39,8 +44,9 @@ public class CompoPartParams {
 		return mScale;
 	}
 	public void setScale(float scale) {
-		mScale = scale;
+		if(scale > mMinimumScale && scale < mMaximumScale) {
+			mScale = scale;
+		}
 	}
-	
 	
 }
