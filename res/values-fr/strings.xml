@@ -30,4 +30,7 @@
     <string name="BTN_mixfriends">Mélanger</string>
     <string name="BTN_gallery">Galerie</string>
     
+    <string name="ERROR_bitmap_null">Opération annulée</string>
+    
+    
 </resources>

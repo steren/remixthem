@@ -30,4 +30,6 @@
     <string name="BTN_mixfriends">Mix friends</string>
     <string name="BTN_gallery">Gallery</string>
 
+    <string name="ERROR_bitmap_null">Operation canceled</string>
+    
 </resources>

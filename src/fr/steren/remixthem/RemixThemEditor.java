@@ -8,13 +8,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.w3c.dom.Text;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +20,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +46,7 @@ public class RemixThemEditor extends Activity {
         
         //Get the Editor (mix = 0 or remix = 1)
         mEditor = getIntent().getExtras().getInt("Editor");
-        
+       
         mRemixThemView = new RemixThemView(this);
           
         setContentView(R.layout.editormenu);
@@ -145,9 +141,7 @@ public class RemixThemEditor extends Activity {
                 Bitmap faceBitmap = (Bitmap) data.getParcelableExtra("data");
 
                 if (faceBitmap == null) {
-                	Log.e("RemixThem", "Take Photo Fail, bitmap null");
-        			Toast.makeText(this, "Error : Bitmap null",Toast.LENGTH_LONG).show(); 
-                            			
+        			Toast.makeText(this, R.string.ERROR_bitmap_null,Toast.LENGTH_LONG).show(); 
         			return;
                 }
                 

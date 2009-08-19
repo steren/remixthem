@@ -10,9 +10,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import fr.steren.remixthem.Compo.EditAction;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,9 +19,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -43,7 +39,7 @@ class RemixThemView extends View {
     private int mCompoPositionTop;
     private int mCompoPositionRight;
     private int mCompoPositionBottom;
-	
+
     /** All the "heads" are stored here */
     private ArrayList<BackgroundFace> mHeads;
 
@@ -66,17 +62,13 @@ class RemixThemView extends View {
     private float mTempScale;
     
    
-    
+    /**
+     * View of the main RemixThem engine
+     * @param context
+     */
 	public RemixThemView(Context context) {
 		super(context);
 		Log.i("RemixThem", "HELLO WORLD");
-		
-		//Depending the screen size, draw the Compo
-		//TODO
-		mCompoPositionLeft = 0;
-	    mCompoPositionTop = 0;
-	    mCompoPositionRight = 300;
-	    mCompoPositionBottom = 400;
 		
 	    //Store the background faces
 	    mHeads = new ArrayList<BackgroundFace>();
@@ -88,6 +80,16 @@ class RemixThemView extends View {
 
 	@Override protected void onDraw(Canvas canvas) {
 		if(mActiveCompo != null) {
+			//make the picture fullscreen
+			int activeCompoWidth = mActiveCompo.getBackgroundFace().getDrawable().getIntrinsicWidth();
+			int activeCompoHeight = mActiveCompo.getBackgroundFace().getDrawable().getIntrinsicHeight();
+
+			int pictureWidth = this.getHeight() * activeCompoWidth / activeCompoHeight;
+			mCompoPositionLeft = (this.getWidth() - pictureWidth) / 2 ;
+		    mCompoPositionTop = 0;
+		    mCompoPositionRight = mCompoPositionLeft + pictureWidth ;
+		    mCompoPositionBottom = this.getHeight();
+			
 	        mActiveCompo.getBackgroundFace().getDrawable().setBounds(mCompoPositionLeft, mCompoPositionTop, mCompoPositionRight, mCompoPositionBottom);
 	        mActiveCompo.getBackgroundFace().getDrawable().draw(canvas);
 	    	
