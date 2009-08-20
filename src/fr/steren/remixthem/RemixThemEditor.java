@@ -245,6 +245,7 @@ public class RemixThemEditor extends Activity {
 
     	Intent email = new Intent(Intent.ACTION_SEND);
     	email.putExtra(Intent.EXTRA_STREAM, saveOnDisk() );
+    	email.putExtra(Intent.EXTRA_TEXT, "Can you see me TEST" );
     	email.setType("image/*"); 
     	startActivity(email);  	
     
