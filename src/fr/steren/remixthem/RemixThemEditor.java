@@ -194,7 +194,7 @@ public class RemixThemEditor extends Activity {
     	// mettre l'uri d'un bitmap dans les extras de l'intent
     }
 
-    private void saveOnDisk() {
+    private Uri saveOnDisk() {
    	    //First create the directory if it doesn't exist
     	File directory = new File(Environment.getExternalStorageDirectory(), "RemixThem");
     	if(!directory.exists())
@@ -202,7 +202,8 @@ public class RemixThemEditor extends Activity {
     		directory.mkdir();
     	}  	
     	
-        File file1 ;
+    	Uri returnUri = null;
+    	File file1;
         FileOutputStream outputStream = null;
 		try {
 			file1 = new File(directory, computeFileName()+ ".jpg");
@@ -212,6 +213,8 @@ public class RemixThemEditor extends Activity {
 			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
 			outputStream.close();
 		
+			returnUri = Uri.fromFile(file1);
+			
 			Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show(); 
 			
 		} catch (FileNotFoundException e1) {
@@ -229,6 +232,7 @@ public class RemixThemEditor extends Activity {
 				}
 			}
 		}
+		return returnUri;
     }
     
     private String computeFileName() {
@@ -238,27 +242,9 @@ public class RemixThemEditor extends Activity {
 	    }
     
     private void send() {
-    	Uri tempUri = null;
-    	String fileName = "RemixThem.jpg";
-    	try {
-			File path = getFileStreamPath(fileName);
-			path.delete();
-    		
-    		FileOutputStream filestream = this.openFileOutput(fileName, 0);
-			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, filestream);
-			filestream.close();
-			tempUri = Uri.fromFile(path);
-			
-		} catch (FileNotFoundException e) {
-			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_SHORT).show(); 
-			e.printStackTrace();
-		} catch (IOException e) {
-			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_SHORT).show(); 
-			e.printStackTrace();
-		}
 
     	Intent email = new Intent(Intent.ACTION_SEND);
-    	email.putExtra(Intent.EXTRA_STREAM, tempUri );
+    	email.putExtra(Intent.EXTRA_STREAM, saveOnDisk() );
     	email.setType("image/*"); 
     	startActivity(email);  	
     
