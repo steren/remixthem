@@ -100,7 +100,7 @@ public class BackgroundFace {
 
         int alphaMaskW = alphaMask.getWidth();
         int alphaMaskH = alphaMask.getHeight();
-        int[] alphaMaskPix = new int[alphaMask.getWidth()*alphaMaskH];
+        int[] alphaMaskPix = new int[alphaMaskW*alphaMaskH];
         alphaMask.getPixels(alphaMaskPix, 0, alphaMaskW, 0, 0, alphaMaskW, alphaMaskH);
         for (int y = 0; y < facePartPicH; y++) {
         	   for (int x = 0; x < facePartPicW; x++) {

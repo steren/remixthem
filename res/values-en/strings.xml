@@ -30,6 +30,10 @@
     <string name="BTN_mixfriends">Mix friends</string>
     <string name="BTN_gallery">Gallery</string>
 
-    <string name="ERROR_bitmap_null">Operation canceled</string>
+    <string name="ERROR_bitmap_null">No picture provided</string>
     
+    <string name="email_subject">RemixThem</string>
+    <string name="email_body">Made using the RemixThem application on my Android phone.</string>
+    
+        
 </resources>

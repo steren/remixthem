@@ -12,7 +12,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -60,10 +63,31 @@ public class RemixThemEditor extends Activity {
             	takePicture();
             }
         });
+
+        Button button_load = (Button) findViewById(R.id.button_load);
+        button_load.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	startActivityForResult( new Intent(Intent.ACTION_PICK,  android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_CODE_USE_IMAGE); 
+            }
+        });
+
+        Button button_contact = (Button) findViewById(R.id.button_contact);
+        button_contact.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	loadContactPictureGrid();
+            }
+        });
         
         mMenuDisplayed = false;
         mReadyToEdit = false;
         
+    }
+    
+    private void takePicture() {
+    	Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
+    	//TODO 
+    	// mettre l'uri d'un bitmap dans les extras de l'intent
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,60 +162,92 @@ public class RemixThemEditor extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case REQUEST_CODE_TAKE_PICTURE:
-                Bitmap faceBitmap = (Bitmap) data.getParcelableExtra("data");
-
-                if (faceBitmap == null) {
-        			Toast.makeText(this, R.string.ERROR_bitmap_null,Toast.LENGTH_LONG).show(); 
-        			return;
-                }
-                
-                if (mRemixThemView.addHead(this, faceBitmap) == false)
-                {
-        		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        	        builder.setIcon(R.drawable.alert_icon);
-        		    builder.setTitle(R.string.nofacedetected);
-        		    builder.setMessage(R.string.nofacedetected_message);
-        	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-        	            public void onClick(DialogInterface dialog, int whichButton) {
-        	            }
-        	        });
-        	        AlertDialog alert = builder.create();
-        	        alert.show();
-        	        
-        	        return; 
-                }
-                
-                //if everything succeeded
-                if(mEditor == 0) { //If we are in edit mode
-                	//select a random preset
-                	mRemixThemView.randomPreset();
-                	setContentView(mRemixThemView);
-                	mReadyToEdit = true;
-                } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
-                    TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
-                    hello_text.setText(R.string.new_picture_editor);
-                } else if ( mEditor == 1 && mRemixThemView.getHeadNumber() > 1) { //if we ask 2 pictures and have 2
-                	//randomize the face
-                	mRemixThemView.randomize();
-                	setContentView(mRemixThemView);
-                	mReadyToEdit = true;
-                }
-        
+            	if(data !=null) {
+            		Bitmap faceBitmap1 = (Bitmap) data.getParcelableExtra("data");
+            		receiveBitmap(faceBitmap1);
+            	}
                 break;
 
             case REQUEST_CODE_USE_IMAGE:
-                setTitle("Image received");
+                Uri uri = data.getData();
+                if(uri != null) {
+                	uri.getEncodedPath();
+                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+                	cursor.moveToFirst();
+                	String imageFilePath = cursor.getString(0);
+                	cursor.close(); 
+
+                	//Prepare to load Bitmap
+        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+                	Bitmap originalBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
+                	//Resize the Bitmap : 
+                	int width = originalBitmap.getWidth();
+                    int height = originalBitmap.getHeight();
+                    int newHeight = 400;
+                    int newWidth = (int)( (float)(newHeight * width) / (float)(height) );
+                    // calculate the scale
+                    float scaleWidth = ((float) newWidth) / ((float) width);
+                    float scaleHeight = ((float) newHeight) / ((float) height);
+                    // create a matrix for the manipulation
+                    Matrix matrix = new Matrix();
+                    // resize the bit map
+                    matrix.postScale(scaleWidth, scaleHeight);
+                    // create the new Bitmap
+                    Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, width, height, matrix, true); 
+
+                    //Extract the face from this bitmap
+            		receiveBitmap(resizedBitmap);
+                }
                 break;
             default:
                 break;
         }
     }
+    
+    private void receiveBitmap(Bitmap faceBitmap) {
+        if (faceBitmap == null) {
+			Toast.makeText(this, R.string.ERROR_bitmap_null,Toast.LENGTH_LONG).show(); 
+			return;
+        }
+        
+        if (mRemixThemView.addHead(this, faceBitmap) == false)
+        {
+		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        builder.setIcon(R.drawable.alert_icon);
+		    builder.setTitle(R.string.nofacedetected);
+		    builder.setMessage(R.string.nofacedetected_message);
+	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) {
+	            }
+	        });
+	        AlertDialog alert = builder.create();
+	        alert.show();
+	        
+	        return; 
+        }
+        
+        //if everything succeeded
+        if(mEditor == 0) { //If we are in edit mode
+        	//select a random preset
+        	mRemixThemView.randomPreset();
+        	setContentView(mRemixThemView);
+        	mReadyToEdit = true;
+        } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
+            TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
+            hello_text.setText(R.string.new_picture_editor);
+        } else if ( mEditor == 1 && mRemixThemView.getHeadNumber() > 1) { //if we ask 2 pictures and have 2
+        	//randomize the face
+        	mRemixThemView.randomize();
+        	setContentView(mRemixThemView);
+        	mReadyToEdit = true;
+        }
+    }
 
-    private void takePicture() {
-    	Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
-    	//TODO 
-    	// mettre l'uri d'un bitmap dans les extras de l'intent
+
+    private void loadContactPictureGrid() {
+    	Intent intent = new Intent(this, ContactGrid.class);
+        startActivity(intent);
     }
 
     private Uri saveOnDisk() {
@@ -245,7 +301,8 @@ public class RemixThemEditor extends Activity {
 
     	Intent email = new Intent(Intent.ACTION_SEND);
     	email.putExtra(Intent.EXTRA_STREAM, saveOnDisk() );
-    	email.putExtra(Intent.EXTRA_TEXT, "Can you see me TEST" );
+    	email.putExtra(Intent.EXTRA_SUBJECT, R.string.email_subject); 
+    	email.putExtra(Intent.EXTRA_TEXT, R.string.email_body );
     	email.setType("image/*"); 
     	startActivity(email);  	
     
