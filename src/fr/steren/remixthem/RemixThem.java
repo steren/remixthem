@@ -49,7 +49,7 @@ public class RemixThem extends Activity implements View.OnClickListener {
                 break;
             case R.id.gallery_button:
             	intent = new Intent(this, RemixThemGrid.class);
-                startActivity(intent);
+            	startActivity(intent);
                 break;
         }
     }
