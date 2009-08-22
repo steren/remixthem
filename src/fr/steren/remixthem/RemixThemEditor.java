@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +20,9 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Contacts;
 import android.provider.MediaStore;
+import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -28,9 +31,10 @@ import android.widget.Toast;
 
 public class RemixThemEditor extends Activity {
 	
-    public static final int REQUEST_CODE_TAKE_PICTURE   = 1;
-    public static final int REQUEST_CODE_USE_IMAGE     	= 2;
-
+    public static final int REQUEST_CODE_TAKE_PICTURE   	= 1;
+    public static final int REQUEST_CODE_USE_IMAGE     		= 2;
+    public static final int REQUEST_CODE_USE_CONTACT_IMAGE 	= 3;
+    
     /** Which Editor are we using (mix = 0 or remix = 1) */
     private int mEditor;
     
@@ -74,8 +78,14 @@ public class RemixThemEditor extends Activity {
         Button button_contact = (Button) findViewById(R.id.button_contact);
         button_contact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	loadContactPictureGrid();
+            	//loadContactPictureGrid();
+            	//Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
+            	Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            	intent.setType(People.CONTENT_ITEM_TYPE);
+            	startActivityForResult(intent, 3); 
             }
+
+        
         });
         
         mMenuDisplayed = false;
@@ -200,6 +210,16 @@ public class RemixThemEditor extends Activity {
             		receiveBitmap(resizedBitmap);
                 }
                 break;
+            case REQUEST_CODE_USE_CONTACT_IMAGE:
+            	Uri contactUri = data.getData();
+            	
+            	InputStream contactPictureStream = Contacts.People.openContactPhotoInputStream(getContentResolver(), contactUri);
+            	
+            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+            	Bitmap originalBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
+        		receiveBitmap(originalBitmap);
+            	break;
             default:
                 break;
         }
