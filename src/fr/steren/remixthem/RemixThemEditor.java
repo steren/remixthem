@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,7 @@ import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +37,8 @@ public class RemixThemEditor extends Activity {
     public static final int REQUEST_CODE_USE_IMAGE     		= 2;
     public static final int REQUEST_CODE_USE_CONTACT_IMAGE 	= 3;
     
-    /** Which Editor are we using (mix = 0 or remix = 1) */
-    private int mEditor;
+    /** Which Editor are we using (remix = 0 or mix = 1) */
+    private int mEditor = 0;
     
     /** If the menu has been displayed */
     private boolean mMenuDisplayed;
@@ -51,15 +53,17 @@ public class RemixThemEditor extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //Get the Editor (mix = 0 or remix = 1)
+        //Get the Editor (remix = 0 / mix = 1)
         mEditor = getIntent().getExtras().getInt("Editor");
-       
-        mRemixThemView = new RemixThemView(this);
-          
-        setContentView(R.layout.editormenu);
         
-        TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
-        hello_text.setText(R.string.hello_editor);
+        mRemixThemView = new RemixThemView(this);
+
+        if(mEditor == 1) {
+        	setContentView(R.layout.editormenu_mix);
+        }else {
+        	setContentView(R.layout.editormenu);
+        	
+        }
 
         Button button_take = (Button) findViewById(R.id.button_take);
         button_take.setOnClickListener(new View.OnClickListener() {
@@ -78,11 +82,7 @@ public class RemixThemEditor extends Activity {
         Button button_contact = (Button) findViewById(R.id.button_contact);
         button_contact.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	//loadContactPictureGrid();
-            	//Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
-            	Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            	intent.setType(People.CONTENT_ITEM_TYPE);
-            	startActivityForResult(intent, 3); 
+            	selectContact();
             }
 
         
@@ -98,6 +98,12 @@ public class RemixThemEditor extends Activity {
     	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
     	//TODO 
     	// mettre l'uri d'un bitmap dans les extras de l'intent
+    }
+    
+    private void selectContact() {
+		Toast.makeText(this, R.string.contactnosearch, Toast.LENGTH_LONG).show();             	
+    	Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
+    	startActivityForResult(intent, REQUEST_CODE_USE_CONTACT_IMAGE); 
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,28 +146,37 @@ public class RemixThemEditor extends Activity {
         switch (item.getItemId()) {
         case R.id.change:
         	mRemixThemView.setMode(RemixThemView.Mode.CHANGEMODE);
+        	mRemixThemView.setDisplayPointPart(true);
         	mRemixThemView.noActiveCompoPart();
         	Log.i("RemixThem", "ChangeMode");
             return true;
         case R.id.editpart:
         	mRemixThemView.setMode(RemixThemView.Mode.EDITPARTMODE);
+        	mRemixThemView.setDisplayPointPart(true);
             return true;
         case R.id.random:
+        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomize();
             return true;
         case R.id.ugly:
+        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomPreset();
             return true;
         case R.id.reset:
+        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.resetParams();
         	return true;
         case R.id.send:
+        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	mRemixThemView.noActiveCompoPart();
         	send();
         	return true;
         case R.id.save:
+        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	mRemixThemView.noActiveCompoPart();
         	saveOnDisk();
             return true;
         }
@@ -170,58 +185,65 @@ public class RemixThemEditor extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case REQUEST_CODE_TAKE_PICTURE:
-            	if(data !=null) {
-            		Bitmap faceBitmap1 = (Bitmap) data.getParcelableExtra("data");
-            		receiveBitmap(faceBitmap1);
-            	}
-                break;
-
-            case REQUEST_CODE_USE_IMAGE:
-                Uri uri = data.getData();
-                if(uri != null) {
-                	uri.getEncodedPath();
-                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
-                	cursor.moveToFirst();
-                	String imageFilePath = cursor.getString(0);
-                	cursor.close(); 
-
-                	//Prepare to load Bitmap
-        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-                	Bitmap originalBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
-                	//Resize the Bitmap : 
-                	int width = originalBitmap.getWidth();
-                    int height = originalBitmap.getHeight();
-                    int newHeight = 400;
-                    int newWidth = (int)( (float)(newHeight * width) / (float)(height) );
-                    // calculate the scale
-                    float scaleWidth = ((float) newWidth) / ((float) width);
-                    float scaleHeight = ((float) newHeight) / ((float) height);
-                    // create a matrix for the manipulation
-                    Matrix matrix = new Matrix();
-                    // resize the bit map
-                    matrix.postScale(scaleWidth, scaleHeight);
-                    // create the new Bitmap
-                    Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, width, height, matrix, true); 
-
-                    //Extract the face from this bitmap
-            		receiveBitmap(resizedBitmap);
-                }
-                break;
-            case REQUEST_CODE_USE_CONTACT_IMAGE:
-            	Uri contactUri = data.getData();
-            	
-            	InputStream contactPictureStream = Contacts.People.openContactPhotoInputStream(getContentResolver(), contactUri);
-            	
-            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-            	Bitmap originalBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
-        		receiveBitmap(originalBitmap);
-            	break;
-            default:
-                break;
+    	if(data != null)
+    	{
+	        switch(requestCode) {
+	            case REQUEST_CODE_TAKE_PICTURE:
+	            	Bitmap faceBitmap1 = (Bitmap) data.getParcelableExtra("data");
+	            	receiveBitmap(faceBitmap1);
+	                break;
+	
+	            case REQUEST_CODE_USE_IMAGE:
+		                Uri uri = data.getData();
+		                if(uri != null) {
+		                	uri.getEncodedPath();
+		                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+		                	cursor.moveToFirst();
+		                	String imageFilePath = cursor.getString(0);
+		                	cursor.close(); 
+		
+		                	//Prepare to load Bitmap
+		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+		                	Bitmap originalBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
+		                	//Resize the Bitmap : 
+		                	int width = originalBitmap.getWidth();
+		                    int height = originalBitmap.getHeight();
+		                    int newHeight = 400;
+		                    int newWidth = (int)( (float)(newHeight * width) / (float)(height) );
+		                    // calculate the scale
+		                    float scaleWidth = ((float) newWidth) / ((float) width);
+		                    float scaleHeight = ((float) newHeight) / ((float) height);
+		                    // create a matrix for the manipulation
+		                    Matrix matrix = new Matrix();
+		                    // resize the bit map
+		                    matrix.postScale(scaleWidth, scaleHeight);
+		                    // create the new Bitmap
+		                    Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, width, height, matrix, true); 
+		
+		                    //Extract the face from this bitmap
+		            		receiveBitmap(resizedBitmap);
+		                }
+	
+	                break;
+	            
+	            case REQUEST_CODE_USE_CONTACT_IMAGE:
+	            	Uri contactUri = data.getData();
+	            	if(contactUri != null) {
+		            	InputStream contactPictureStream = Contacts.People.openContactPhotoInputStream(getContentResolver(), contactUri);
+		            	
+		            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+		            	Bitmap contactBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
+		            	//copy the Bitmap to not write on it.
+		            	Bitmap contactBitmapCopy = contactBitmap.copy(Bitmap.Config.RGB_565, true);
+		        		receiveBitmap(contactBitmapCopy);
+	            	}
+	            	break;
+	            	
+	            default:
+	                break;
+        }
         }
     }
     
@@ -248,14 +270,20 @@ public class RemixThemEditor extends Activity {
         }
         
         //if everything succeeded
-        if(mEditor == 0) { //If we are in edit mode
+        if(mEditor == 0) { //If we are in remix
         	//select a random preset
         	mRemixThemView.randomPreset();
         	setContentView(mRemixThemView);
         	mReadyToEdit = true;
         } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
-            TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
+        	//change the text
+        	TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
             hello_text.setText(R.string.new_picture_editor);
+            //Update the first portrait
+            ImageView portrait1 = (ImageView) findViewById(R.id.portrait1);
+            portrait1.setBackgroundDrawable(mRemixThemView.getActiveCompo().getBackgroundFace().getDrawable());
+            portrait1.setImageDrawable( getResources().getDrawable(R.drawable.img_portrait_frame));
+            
         } else if ( mEditor == 1 && mRemixThemView.getHeadNumber() > 1) { //if we ask 2 pictures and have 2
         	//randomize the face
         	mRemixThemView.randomize();
@@ -321,8 +349,8 @@ public class RemixThemEditor extends Activity {
 
     	Intent email = new Intent(Intent.ACTION_SEND);
     	email.putExtra(Intent.EXTRA_STREAM, saveOnDisk() );
-    	email.putExtra(Intent.EXTRA_SUBJECT, R.string.email_subject); 
-    	email.putExtra(Intent.EXTRA_TEXT, R.string.email_body );
+    	email.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject) ); 
+    	email.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body) ); 
     	email.setType("image/*"); 
     	startActivity(email);  	
     

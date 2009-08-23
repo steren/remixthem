@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 public class RemixThem extends Activity implements View.OnClickListener {
@@ -26,8 +25,9 @@ public class RemixThem extends Activity implements View.OnClickListener {
 
 	
     public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.menu_main, menu);
+    	//TODO create preferences 
+    	//MenuInflater inflater = getMenuInflater();
+    	//inflater.inflate(R.menu.menu_main, menu);
     	return true;
     }
     

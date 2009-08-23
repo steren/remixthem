@@ -4,17 +4,20 @@
 
     <string name="ok">OK</string>    
     
-    <string name="hello_editor">Hello, start by selecting a picture of a friend\'s face.</string>
+    <string name="hello_editor_remix">Hello\nStart by selecting a picture of a friend\'s face.</string>
     <string name="picture_take">New picture</string>
     <string name="picture_load">Existing image</string>
     <string name="picture_contact">Contact picture</string>
-    <string name="new_picture_editor">Great I've got the first face, now select a second one please.</string>
+    <string name="hello_editor_mix">Hello\nStart by selecting a picture of a first friend\'s face.</string>
+    <string name="new_picture_editor">Great!\nI\'ve got the first face, now select the second one please.</string>
         
     <string name="nofacedetected">Sorry,</string>
     <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nYou should try to take a new one.</string>
 
     
     <string name="takepicture">Take a picture of friend\'s face</string>
+    <string name="contactnosearch">Select a contact.\nProblem when using the \"Search\" button</string>
+    
     <string name="saved">Image saved</string>    
     
     <string name="BTN_preferences">Preferences</string>

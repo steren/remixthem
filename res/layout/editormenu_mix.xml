@@ -17,7 +17,7 @@
     	<TextView 	android:id="@+id/hello_editor_text"
         	      	android:layout_width="fill_parent"
             	  	android:layout_height="wrap_content"
-              		android:text="@string/hello_editor_remix"
+              		android:text="@string/hello_editor_mix"
               		android:padding="10dip"
               		android:textSize="16dip"/>
               		
@@ -28,10 +28,17 @@
     				android:orientation="horizontal"
     				android:layout_weight="1"
     				android:padding="5dip">
-
-	    <ImageView 	android:id="@+id/portrait"
+              	
+	    <ImageView 	android:id="@+id/portrait1"
 	    			android:adjustViewBounds="true"
-					android:src="@drawable/img_portrait"
+					android:src="@drawable/img_portrait1"
+					android:layout_width="fill_parent"
+    				android:layout_height="fill_parent"
+    				android:layout_weight="1"/>
+
+	    <ImageView 	android:id="@+id/portrait2"
+	    			android:adjustViewBounds="true"
+					android:src="@drawable/img_portrait2"
 					android:layout_width="fill_parent"
     				android:layout_height="fill_parent"
     				android:layout_weight="1"/>

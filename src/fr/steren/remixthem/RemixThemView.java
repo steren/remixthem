@@ -24,10 +24,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 class RemixThemView extends View {
-	public enum Mode {CHANGEMODE, EDITPARTMODE};
+	public enum Mode {NOINTERACTION, CHANGEMODE, EDITPARTMODE};
 
-	private Mode mMode= Mode.CHANGEMODE;
+	private Mode mMode = Mode.NOINTERACTION;
 	private EditAction mEditAction = EditAction.NOTHING;
+	
+	private Boolean mDisplayPartPoints = true;
 	
     /** The face touched by an Action event. */
     private CompoPart mActiveCompoPart;
@@ -104,9 +106,16 @@ class RemixThemView extends View {
 	        	canvas.restore();	        	
 	        }
 	        
-	        if( mActiveCompoPart != null) {
-		        drawUILines(canvas, mActiveCompoPart);	        	
+	        if(mMode != Mode.NOINTERACTION){
+	        	if(mDisplayPartPoints) {
+		        	drawPartPoints(canvas);	        		
+	        	}
+		        if( mActiveCompoPart != null) {
+			        drawUILines(canvas, mActiveCompoPart);	        	
+		        }
 	        }
+	        
+
 		}
 	}
 
@@ -134,6 +143,15 @@ class RemixThemView extends View {
 	    canvas.drawCircle(center.x, center.y, 3, paint);
 	}
 	
+	private void drawPartPoints(Canvas canvas) {
+        for( CompoPart compoPart : mActiveCompo.getCompoParts()) {
+			Point center = convertCompoImagePointToScreenPoint(mActiveCompo.computeCenterPosition(compoPart));
+			Paint paint = new Paint();
+			paint.setARGB(120, 255, 255, 255);
+		    canvas.drawCircle(center.x, center.y, 2, paint);
+        }
+	}
+	
 	
     @Override public boolean onTouchEvent(MotionEvent event) {
 		if(mActiveCompo != null) {
@@ -145,8 +163,9 @@ class RemixThemView extends View {
 	            if(action == MotionEvent.ACTION_DOWN) {
 	            	//Check if the user points on a widget
 	            	if(mActiveCompoPart != null) {
+	            		setDisplayPointPart(true);
+
 	            		mEditAction = mActiveCompo.whereIsCompoPartTouched(mActiveCompoPart, touchedPointInImage );
-	            		
 	            		if(mEditAction != EditAction.NOTHING) {
 	            			PointF compoPartCenter = mActiveCompo.computeCenterPosition(mActiveCompoPart);
 	            			mDeltaTouchX = touchedPointInImage.x - compoPartCenter.x;
@@ -157,18 +176,20 @@ class RemixThemView extends View {
 	            			return true;
 	            		}
 	            	}
-	            	
 	            	//if no action has been started or no active CompoPart, check if the user points to a compoPart.
 	            	for( CompoPart compoPart : mActiveCompo.getCompoParts()) {
 	                	if ( mActiveCompo.isCompoPartTouched(compoPart, touchedPointInImage )) {
 	                    	mActiveCompoPart = compoPart;
+	                    	setDisplayPointPart(true);
 	                    	invalidate();
 	                    	return true;
-	                	}else {
-	                    	mActiveCompoPart = null;
-	                    	invalidate();
 	                	}
 	                }
+	            	//if nothing has been touched :
+                	setDisplayPointPart(false);
+	            	mActiveCompoPart = null;
+                    invalidate();
+                	
 	            } else  if(action == MotionEvent.ACTION_MOVE) {
 	            	if(mEditAction == EditAction.MOVE) {
 	        			PointF newCenterPosition = new PointF(touchedPointInImage.x - mDeltaTouchX, touchedPointInImage.y - mDeltaTouchY);
@@ -216,6 +237,7 @@ class RemixThemView extends View {
 	                int index = getHeadIndex(mActiveCompo.getBackgroundFace());
 	        		index = (index + 1) % mHeads.size();
 	        		mActiveCompo.setBackgroundFace(mHeads.get(index));
+	        		setDisplayPointPart(false);
 	        		invalidate();
 	        		return true;
 	            }
@@ -229,6 +251,11 @@ class RemixThemView extends View {
     
 	public void setMode(Mode mode) {
 		mMode = mode;
+		invalidate();
+	}
+	
+	public void setDisplayPointPart(boolean bool) {
+		mDisplayPartPoints = bool;
 		invalidate();
 	}
 	
