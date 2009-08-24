@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">RemixThem</string>
 
+    <string name="activity_remix">RemixThem Remixer</string>
+    <string name="activity_mix">RemixThem Mélanger</string>
+    <string name="activity_gallery">RemixThem Galerie</string>
+    
     <string name="ok">OK</string>    
       
     <string name="hello_editor_remix">Bonjour\nCommencez par sélectionner une photo du visage d\'un ami.</string>
@@ -32,6 +36,9 @@
     <string name="BTN_remixfriend">Remixer</string>
     <string name="BTN_mixfriends">Mélanger</string>
     <string name="BTN_gallery">Galerie</string>
+
+    <string name="TITLE_edit">RemixThem mode Editer</string>
+    <string name="TITLE_change">RemixThem mode Changer</string>
     
     <string name="ERROR_bitmap_null">Pas d\'image fournie</string>
     

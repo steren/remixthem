@@ -59,8 +59,10 @@ public class RemixThemEditor extends Activity {
         mRemixThemView = new RemixThemView(this);
 
         if(mEditor == 1) {
+        	setTitle(R.string.activity_mix);
         	setContentView(R.layout.editormenu_mix);
         }else {
+        	setTitle(R.string.activity_remix);
         	setContentView(R.layout.editormenu);
         	
         }
@@ -146,36 +148,42 @@ public class RemixThemEditor extends Activity {
         switch (item.getItemId()) {
         case R.id.change:
         	mRemixThemView.setMode(RemixThemView.Mode.CHANGEMODE);
+        	setTitle(R.string.TITLE_change);
         	mRemixThemView.setDisplayPointPart(true);
         	mRemixThemView.noActiveCompoPart();
-        	Log.i("RemixThem", "ChangeMode");
             return true;
         case R.id.editpart:
         	mRemixThemView.setMode(RemixThemView.Mode.EDITPARTMODE);
+        	setTitle(R.string.TITLE_edit);
         	mRemixThemView.setDisplayPointPart(true);
             return true;
         case R.id.random:
         	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	setTitle(R.string.app_name);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomize();
             return true;
         case R.id.ugly:
         	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	setTitle(R.string.app_name);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.randomPreset();
             return true;
         case R.id.reset:
         	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	setTitle(R.string.app_name);
         	mRemixThemView.noActiveCompoPart();
         	mRemixThemView.resetParams();
         	return true;
         case R.id.send:
         	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	setTitle(R.string.app_name);
         	mRemixThemView.noActiveCompoPart();
         	send();
         	return true;
         case R.id.save:
         	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+        	setTitle(R.string.app_name);
         	mRemixThemView.noActiveCompoPart();
         	saveOnDisk();
             return true;
@@ -274,6 +282,7 @@ public class RemixThemEditor extends Activity {
         	//select a random preset
         	mRemixThemView.randomPreset();
         	setContentView(mRemixThemView);
+        	setTitle(R.string.app_name);
         	mReadyToEdit = true;
         } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
         	//change the text
@@ -288,14 +297,9 @@ public class RemixThemEditor extends Activity {
         	//randomize the face
         	mRemixThemView.randomize();
         	setContentView(mRemixThemView);
+        	setTitle(R.string.app_name);
         	mReadyToEdit = true;
         }
-    }
-
-
-    private void loadContactPictureGrid() {
-    	Intent intent = new Intent(this, ContactGrid.class);
-        startActivity(intent);
     }
 
     private Uri saveOnDisk() {
