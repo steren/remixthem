@@ -37,12 +37,12 @@
     <string name="BTN_mixfriends">Mélanger</string>
     <string name="BTN_gallery">Galerie</string>
 
-    <string name="TITLE_edit">RemixThem mode Editer</string>
-    <string name="TITLE_change">RemixThem mode Changer</string>
+    <string name="TITLE_edit">RemixThem Editer</string>
+    <string name="TITLE_change">RemixThem Changer</string>
     
     <string name="ERROR_bitmap_null">Pas d\'image fournie</string>
     
     <string name="email_subject">RemixThem</string>
-    <string name="email_body">Réalisé en utilisant l'application RemixThem de mon téléphone Android.</string>
+    <string name="email_body">Réalisé en utilisant l\'application RemixThem de mon téléphone Android.</string>
     
 </resources>
