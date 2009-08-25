@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class RemixThemGrid extends Activity {
 
-	private File[] mPictureFiles;
+	private File[] mPictureFiles = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class RemixThemGrid extends Activity {
     	
         File dir = new File(Environment.getExternalStorageDirectory(), "RemixThem");
 
-        // This filter only returns directories
+        // This filter only returns files
         FileFilter fileFilter = new FileFilter() {
             public boolean accept(File file) {
                 return file.isFile();
@@ -67,7 +67,11 @@ public class RemixThemGrid extends Activity {
         }
 
         public int getCount() {
-            return mPictureFiles.length;
+        	if(mPictureFiles != null) {
+        		return mPictureFiles.length;
+        	} else {
+        		return 0;
+        	}
         }
 
         public Object getItem(int position) {
