@@ -218,36 +218,16 @@ public class RemixThemEditor extends Activity {
 		                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
 		                	
 		                	//Compute the sub-sample ratio :
-		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
-		                	
-		                	
+		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) +1;
+		                			                	
 		                	//Prepare to load Bitmap
 		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 		        	        bitmapOptions.inSampleSize = ratio;
 		                	Bitmap sampledBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
 		                	
-		                	
-		                	
-		                	//Resize the Bitmap to make sure it is not more than DEFINE_HEIGHT height
-		                	int width = sampledBitmap.getWidth();
-		                    int height = sampledBitmap.getHeight();
-		                    /*float newHeight = DEFINE_HEIGHT;
-		                    float newWidth =  (float)(newHeight * width) / (float)(height);
-		                    // calculate the scale
-		                    float scaleWidth = newWidth / ((float) width);
-		                    float scaleHeight = newHeight / ((float) height);
-		                    // create a matrix for the manipulation
-		                    Matrix matrix = new Matrix();
-		                    // resize the bit map
-		                    matrix.postScale(scaleWidth, scaleHeight);
-		                    // create the new Bitmap
-		                    Bitmap resizedBitmap = Bitmap.createBitmap(sampledBitmap, 0, 0, width, height, matrix, true); 
-		                    */
 		                    //Extract the face from this bitmap
 		            		receiveBitmap(sampledBitmap);
-
-		                	
 		                }
 	
 	                break;
@@ -287,8 +267,27 @@ public class RemixThemEditor extends Activity {
 			Toast.makeText(this, R.string.ERROR_bitmap_null,Toast.LENGTH_LONG).show(); 
 			return;
         }
+
+        Bitmap faceBitmapOK = faceBitmap;
         
-        if (mRemixThemView.addHead(this, faceBitmap) == false)
+        //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
+    	int height = faceBitmap.getHeight();
+        if (height > DEFINE_HEIGHT) {
+	    	int width = faceBitmap.getWidth();
+	    	float newHeight = DEFINE_HEIGHT;
+	        float newWidth =  (float)(newHeight * width) / (float)(height);
+	        // calculate the scale
+	        float scaleWidth = newWidth / ((float) width);
+	        float scaleHeight = newHeight / ((float) height);
+	        // create a matrix for the manipulation
+	        Matrix matrix = new Matrix();
+	        // resize the bit map
+	        matrix.postScale(scaleWidth, scaleHeight);
+	        // create the new Bitmap
+	        faceBitmapOK = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
+        }
+        
+        if (mRemixThemView.addHead(this, faceBitmapOK) == false)
         {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	        builder.setIcon(R.drawable.alert_icon);

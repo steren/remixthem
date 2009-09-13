@@ -332,7 +332,7 @@ class RemixThemView extends View {
 			//generate a random number different from the current preset number
 			int index = mPresetNumber;
 			while (index == mPresetNumber) {
-				rand.nextInt( mPresets.size() );
+				index = rand.nextInt( mPresets.size() );
 			}
 		
 			mPresetNumber = index;
