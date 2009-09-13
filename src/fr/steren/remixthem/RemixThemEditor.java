@@ -238,14 +238,24 @@ public class RemixThemEditor extends Activity {
 	            case REQUEST_CODE_USE_CONTACT_IMAGE:
 	            	Uri contactUri = data.getData();
 	            	if(contactUri != null) {
-		            	InputStream contactPictureStream = Contacts.People.openContactPhotoInputStream(getContentResolver(), contactUri);
-		            	
-		            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-		            	Bitmap contactBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
-		            	//copy the Bitmap to not write on it.
-		            	Bitmap contactBitmapCopy = contactBitmap.copy(Bitmap.Config.RGB_565, true);
-		        		receiveBitmap(contactBitmapCopy);
+	            		InputStream contactPictureStream = Contacts.People.openContactPhotoInputStream(getContentResolver(), contactUri);
+	            		if(contactPictureStream != null) {
+			            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+			            	Bitmap contactBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
+			        		receiveBitmap(contactBitmap);
+	            		}else {
+	            		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	            	        builder.setIcon(R.drawable.alert_icon);
+	            		    builder.setTitle(R.string.nofacedetected);
+	            		    builder.setMessage(R.string.nocontactfacedetected_message);
+	            	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	            	            public void onClick(DialogInterface dialog, int whichButton) {
+	            	            }
+	            	        });
+	            	        AlertDialog alert = builder.create();
+	            	        alert.show();
+	            		}
 	            	}
 	            	break;
 	            	
@@ -284,6 +294,7 @@ public class RemixThemEditor extends Activity {
         	setContentView(mRemixThemView);
         	setTitle(R.string.app_name);
         	mReadyToEdit = true;
+        	return;
         } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
         	//change the text
         	TextView hello_text = (TextView) findViewById(R.id.hello_editor_text);
@@ -292,13 +303,14 @@ public class RemixThemEditor extends Activity {
             ImageView portrait1 = (ImageView) findViewById(R.id.portrait1);
             portrait1.setBackgroundDrawable(mRemixThemView.getActiveCompo().getBackgroundFace().getDrawable());
             portrait1.setImageDrawable( getResources().getDrawable(R.drawable.img_portrait_frame));
-            
+            return;
         } else if ( mEditor == 1 && mRemixThemView.getHeadNumber() > 1) { //if we ask 2 pictures and have 2
         	//randomize the face
         	mRemixThemView.randomize();
         	setContentView(mRemixThemView);
         	setTitle(R.string.app_name);
         	mReadyToEdit = true;
+        	return;
         }
     }
 

@@ -17,6 +17,7 @@
         
     <string name="nofacedetected">Sorry,</string>
     <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nYou should try to take a new one.</string>
+    <string name="nocontactfacedetected_message">I couldn\'t find a picture for this contact.\nYou should try to pick another one.</string>
 
     
     <string name="takepicture">Take a picture of friend\'s face</string>

@@ -373,7 +373,7 @@ class RemixThemView extends View {
 	 * add a new face to the Heads vector
 	 * @param context	: context of the activity
 	 * @param faceBitmap : the Bitmap of the new face
-	 * @return if a face was detectedor not.
+	 * @return if a face was detected or not.
 	 */
 	public boolean addHead(Context context, Bitmap faceBitmap) {
 	    BackgroundFace backgroundface = new BackgroundFace(context, faceBitmap);
