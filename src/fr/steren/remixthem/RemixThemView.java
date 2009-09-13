@@ -51,6 +51,8 @@ class RemixThemView extends View {
 
 	/** All the presets are stored here */
     private ArrayList<Preset> mPresets;
+    /** The current preset number */
+    private int mPresetNumber;
     
 	/**
 	 * The difference between the touched point and the center of the considered part
@@ -78,6 +80,7 @@ class RemixThemView extends View {
 	    //load the presets
 	    mPresets = new ArrayList<Preset>();
 	    loadPresets(context);
+	    mPresetNumber = 0;
 	}
 
 	@Override protected void onDraw(Canvas canvas) {
@@ -325,11 +328,16 @@ class RemixThemView extends View {
 	public void randomPreset() {
 		if(mActiveCompo != null && mPresets.size() != 0) {
 			Random rand = new Random();
-			//generate a random number
-			int index = rand.nextInt( mPresets.size() );
-			//load the preset
+			
+			//generate a random number different from the current preset number
+			int index = mPresetNumber;
+			while (index == mPresetNumber) {
+				rand.nextInt( mPresets.size() );
+			}
+		
+			mPresetNumber = index;
 			mActiveCompo.loadPreset(mPresets.get(index));
-			invalidate();  
+			invalidate();
 		}
 	}
 	

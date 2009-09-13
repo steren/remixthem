@@ -37,6 +37,8 @@ public class RemixThemEditor extends Activity {
     public static final int REQUEST_CODE_USE_IMAGE     		= 2;
     public static final int REQUEST_CODE_USE_CONTACT_IMAGE 	= 3;
     
+    public static final int DEFINE_HEIGHT = 400; 
+    
     /** Which Editor are we using (remix = 0 or mix = 1) */
     private int mEditor = 0;
     
@@ -210,27 +212,42 @@ public class RemixThemEditor extends Activity {
 		                	String imageFilePath = cursor.getString(0);
 		                	cursor.close(); 
 		
+		                	//First get the bounds of the Bitmap
+		                	BitmapFactory.Options getBoundsOptions = new BitmapFactory.Options();
+		                	getBoundsOptions.inJustDecodeBounds = true;
+		                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
+		                	
+		                	//Compute the sub-sample ratio :
+		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
+		                	
+		                	
 		                	//Prepare to load Bitmap
 		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-		                	Bitmap originalBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
-		                	//Resize the Bitmap : 
-		                	int width = originalBitmap.getWidth();
-		                    int height = originalBitmap.getHeight();
-		                    int newHeight = 400;
-		                    int newWidth = (int)( (float)(newHeight * width) / (float)(height) );
+		        	        bitmapOptions.inSampleSize = ratio;
+		                	Bitmap sampledBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
+		                	
+		                	
+		                	
+		                	//Resize the Bitmap to make sure it is not more than DEFINE_HEIGHT height
+		                	int width = sampledBitmap.getWidth();
+		                    int height = sampledBitmap.getHeight();
+		                    /*float newHeight = DEFINE_HEIGHT;
+		                    float newWidth =  (float)(newHeight * width) / (float)(height);
 		                    // calculate the scale
-		                    float scaleWidth = ((float) newWidth) / ((float) width);
-		                    float scaleHeight = ((float) newHeight) / ((float) height);
+		                    float scaleWidth = newWidth / ((float) width);
+		                    float scaleHeight = newHeight / ((float) height);
 		                    // create a matrix for the manipulation
 		                    Matrix matrix = new Matrix();
 		                    // resize the bit map
 		                    matrix.postScale(scaleWidth, scaleHeight);
 		                    // create the new Bitmap
-		                    Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, width, height, matrix, true); 
-		
+		                    Bitmap resizedBitmap = Bitmap.createBitmap(sampledBitmap, 0, 0, width, height, matrix, true); 
+		                    */
 		                    //Extract the face from this bitmap
-		            		receiveBitmap(resizedBitmap);
+		            		receiveBitmap(sampledBitmap);
+
+		                	
 		                }
 	
 	                break;
