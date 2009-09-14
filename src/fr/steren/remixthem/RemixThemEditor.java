@@ -372,7 +372,7 @@ public class RemixThemEditor extends Activity {
     }
     
     private String computeFileName() {
-	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+	        DateFormat dateFormat = new SimpleDateFormat("MM-dd_HH-mm-ss");
 	        Date date = new Date();
 	        return "RemixThem_"+ dateFormat.format(date);
 	    }

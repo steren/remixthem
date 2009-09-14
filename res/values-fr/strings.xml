@@ -43,6 +43,6 @@
     <string name="ERROR_bitmap_null">Pas d\'image fournie</string>
     
     <string name="email_subject">RemixThem</string>
-    <string name="email_body">Réalisé en utilisant l\'application RemixThem de mon téléphone Android.</string>
+    <string name="email_body">Réalisé en utilisant l\'application RemixThem de mon téléphone Android.\nhttp://remixthem.steren.fr</string>
     
 </resources>
