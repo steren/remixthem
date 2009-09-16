@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +22,6 @@ import android.os.Environment;
 import android.provider.Contacts;
 import android.provider.MediaStore;
 import android.provider.Contacts.People;
-import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -98,9 +96,20 @@ public class RemixThemEditor extends Activity {
     
     private void takePicture() {
     	Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    	
+    	//TODO URI : maybe give an Uri
+    	/*
+    	// Save the name and description of an image in a ContentValues map.  
+    	ContentValues values = new ContentValues(3);
+    	values.put(Media.DISPLAY_NAME, "remixthem");
+    	values.put(Media.DESCRIPTION, "Picture to be modify in remixthem");
+    	values.put(Media.MIME_TYPE, "image/jpeg");
+    	// Add a new record without the bitmap, but with the values just set.
+    	// insert() returns the URI of the new record.
+    	Uri mTempUri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+    	imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTempUri); */
+    	
     	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
-    	//TODO 
-    	// mettre l'uri d'un bitmap dans les extras de l'intent
     }
     
     private void selectContact() {
@@ -198,8 +207,27 @@ public class RemixThemEditor extends Activity {
     	{
 	        switch(requestCode) {
 	            case REQUEST_CODE_TAKE_PICTURE:
-	            	Bitmap faceBitmap1 = (Bitmap) data.getParcelableExtra("data");
-	            	receiveBitmap(faceBitmap1);
+	            	
+	            	Bitmap bitmap = (Bitmap) data.getParcelableExtra("data");
+	            	
+	            	//TODO URI use image Uri
+	            	/*
+                	BitmapFactory.Options getBoundsOptions2 = new BitmapFactory.Options();
+                	getBoundsOptions2.inJustDecodeBounds = true;
+                	BitmapFactory.decodeFile( mTempUri.getPath(), getBoundsOptions2);
+
+                	//Compute the sub-sample ratio :
+                	int ratio2 = ( getBoundsOptions2.outHeight / DEFINE_HEIGHT );
+                			                	
+                	//Prepare to load Bitmap
+        	        BitmapFactory.Options bitmapOptions2 = new BitmapFactory.Options();
+        	        bitmapOptions2.inPreferredConfig = Bitmap.Config.RGB_565;
+        	        bitmapOptions2.inSampleSize = ratio2;
+                	Bitmap sampledBitmap2 = BitmapFactory.decodeFile(mTempUri.getPath(), bitmapOptions2);
+                	*/
+                	
+                    //Extract the face from this bitmap
+            		receiveBitmap(bitmap);
 	                break;
 	
 	            case REQUEST_CODE_USE_IMAGE:
@@ -217,7 +245,7 @@ public class RemixThemEditor extends Activity {
 		                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
 		                	
 		                	//Compute the sub-sample ratio :
-		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) +1;
+		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT );
 		                			                	
 		                	//Prepare to load Bitmap
 		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
