@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +24,8 @@ import android.os.Environment;
 import android.provider.Contacts;
 import android.provider.MediaStore;
 import android.provider.Contacts.People;
+import android.provider.MediaStore.Images.Media;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -412,8 +416,27 @@ public class RemixThemEditor extends Activity {
     
     private void send() {
 
+    	// Save the name and description of an image in a ContentValues map.  
+    	ContentValues values = new ContentValues(3);
+    	values.put(Media.DISPLAY_NAME, "RemixThem.jpg");
+    	values.put(Media.DESCRIPTION, "Picture sent with RemixThem");
+    	values.put(Media.MIME_TYPE, "image/jpeg");
+    	// Add a new record without the bitmap, but with the values just set.
+    	// insert() returns the URI of the new record.
+    	Uri uri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+
+    	// Now get a handle to the file for that record, and save the data into it.
+    	// Here, sourceBitmap is a Bitmap object representing the file to save to the database.
+    	try {
+    	    OutputStream outStream = getContentResolver().openOutputStream(uri);
+    	    mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outStream);
+    	    outStream.close();
+    	} catch (Exception e) {
+			Toast.makeText(this, "Error : Can't write in image",Toast.LENGTH_LONG).show(); 
+    	}
+    	
     	Intent email = new Intent(Intent.ACTION_SEND);
-    	email.putExtra(Intent.EXTRA_STREAM, saveOnDisk() );
+    	email.putExtra(Intent.EXTRA_STREAM, uri );
     	email.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject) ); 
     	email.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body) ); 
     	email.setType("image/*"); 
