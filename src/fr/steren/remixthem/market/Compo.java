@@ -157,7 +157,7 @@ public class Compo {
 	 * Save the compo as a Bitmap
 	 */
 	public Bitmap saveAsBitmap() {
-		Bitmap bitmap = Bitmap.createBitmap(mBackgroundFace.getBitmap());
+		Bitmap bitmap = mBackgroundFace.getBitmap().copy(Bitmap.Config.RGB_565, true);
 		Canvas canvas = new Canvas(bitmap);
 		
         for( CompoPart compoPart : getCompoParts()) {
