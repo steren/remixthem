@@ -358,43 +358,49 @@ public class RemixThemEditor extends Activity {
     }
 
     private Uri saveOnDisk() {
-   	    //First create the directory if it doesn't exist
-    	File directory = new File(Environment.getExternalStorageDirectory(), "RemixThem");
-    	if(!directory.exists())
-    	{  	
-    		directory.mkdir();
-    	}  	
-    	
     	Uri returnUri = null;
-    	File file1;
-        FileOutputStream outputStream = null;
-		try {
-			file1 = new File(directory, computeFileName()+ ".jpg");
-	        file1.createNewFile();
-	        
-			outputStream = new FileOutputStream(file1);
-			mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
-			outputStream.close();
-		
-			returnUri = Uri.fromFile(file1);
+
+    	//Check if SDCard
+    	if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+	   	    //First create the directory if it doesn't exist
+	    	File directory = new File(Environment.getExternalStorageDirectory(), "RemixThem");
+	    	if(!directory.exists())
+	    	{  	
+	    		directory.mkdir();
+	    	}  	
+
+	    	File file1;
+	        FileOutputStream outputStream = null;
+			try {
+				file1 = new File(directory, computeFileName()+ ".jpg");
+		        file1.createNewFile();
+		        
+				outputStream = new FileOutputStream(file1);
+				mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+				outputStream.close();
 			
-			Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show(); 
-			
-		} catch (FileNotFoundException e1) {
-			Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_LONG).show(); 
-			e1.printStackTrace();
-		} catch (IOException e) {
-			Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_LONG).show(); 
-			e.printStackTrace();
-		} finally {
-			if (outputStream != null) {
-				try {
-					outputStream.close();
-				} catch (IOException ex) {
-					// ignore exception
+				returnUri = Uri.fromFile(file1);
+				
+				Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show(); 
+				
+			} catch (FileNotFoundException e1) {
+				Toast.makeText(this, "Error : Can't create the file",Toast.LENGTH_LONG).show(); 
+				e1.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(this, "Error : Can't write in file",Toast.LENGTH_LONG).show(); 
+				e.printStackTrace();
+			} finally {
+				if (outputStream != null) {
+					try {
+						outputStream.close();
+					} catch (IOException ex) {
+						// ignore exception
+					}
 				}
 			}
-		}
+    	}else {
+			Toast.makeText(this, "Error : No SD-Card found",Toast.LENGTH_LONG).show(); 
+    	}
 		return returnUri;
     }
     
