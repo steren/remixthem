@@ -1,4 +1,4 @@
-package fr.steren.remixthem;
+package fr.steren.remixthem.market;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

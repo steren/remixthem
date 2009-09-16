@@ -1,4 +1,4 @@
-package fr.steren.remixthem;
+package fr.steren.remixthem.market;
 
 import android.app.Activity;
 import android.os.Bundle;

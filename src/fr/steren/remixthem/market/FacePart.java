@@ -1,4 +1,4 @@
-package fr.steren.remixthem;
+package fr.steren.remixthem.market;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

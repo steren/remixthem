@@ -1,4 +1,4 @@
-package fr.steren.remixthem;
+package fr.steren.remixthem.market;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import fr.steren.remixthem.Compo.EditAction;
+import fr.steren.remixthem.market.Compo.EditAction;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;

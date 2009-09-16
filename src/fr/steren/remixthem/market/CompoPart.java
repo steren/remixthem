@@ -1,4 +1,4 @@
-package fr.steren.remixthem;
+package fr.steren.remixthem.market;
 
 public class CompoPart {
 		
