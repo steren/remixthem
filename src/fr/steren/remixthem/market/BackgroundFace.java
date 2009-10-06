@@ -53,30 +53,45 @@ public class BackgroundFace {
         	mEyesDetectedPosition = new PointF();
             face.getMidPoint(mEyesDetectedPosition);
             mEyesDetectedDistance = face.eyesDistance();
-        
+
 	        // load the picture of the face
 	        mDrawable = new BitmapDrawable(faceBitmap);
 	        mBitmap = faceBitmap;
-	        //Create the eyes, nose and mouth FaceParts
-	        BitmapFactory.Options alphaOptions = new BitmapFactory.Options();
-	        alphaOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-	        mFaceParts = new ArrayList<FacePart>();
 	        
-	        Bitmap alphaMaskEyes = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_eyes, alphaOptions);
-	        BitmapDrawable eyesDrawable = extractFacePart(faceBitmap, 2.0f, 1.2f, 0.f, -0.1f, alphaMaskEyes);
-			mFaceParts.add( new FacePart(eyesDrawable, eyesDrawable.getIntrinsicWidth()/mEyesDetectedDistance , eyesDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.05f, 0.15f) );
-	
-	        Bitmap alphaMaskNose = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_nose, alphaOptions);
-	        BitmapDrawable noseDrawable = extractFacePart(faceBitmap, 1.1f, 1.3f, 0.f, 0.4f, alphaMaskNose);
-			mFaceParts.add(  new FacePart(noseDrawable, noseDrawable.getIntrinsicWidth()/mEyesDetectedDistance , noseDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.15f, 0.15f) );
-	        
-	        Bitmap alphaMaskMouth = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_mouth, alphaOptions);
-	        BitmapDrawable mouthDrawable = extractFacePart(faceBitmap, 1.4f, 0.7f, 0.f, 1.1f, alphaMaskMouth);
-	        mFaceParts.add(  new FacePart(mouthDrawable, mouthDrawable.getIntrinsicWidth()/mEyesDetectedDistance , mouthDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.15f, 0.15f) );
+	        //create face parts
+	        createFaceParts(context);
         } 
     }
+
+
+    public BackgroundFace(Context context, Bitmap faceBitmap, PointF eyePosition, float eyeDistance) {
+    	mEyesDetectedPosition = eyePosition;
+    	mEyesDetectedDistance = eyeDistance;
+    	mFaceDetected = true;
+        mDrawable = new BitmapDrawable(faceBitmap);
+        mBitmap = faceBitmap;
+    }
     
-	public boolean isFaceDetected() {
+    private void createFaceParts(Context context) {
+        //Create the eyes, nose and mouth FaceParts
+        BitmapFactory.Options alphaOptions = new BitmapFactory.Options();
+        alphaOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        mFaceParts = new ArrayList<FacePart>();
+        
+        Bitmap alphaMaskEyes = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_eyes, alphaOptions);
+        BitmapDrawable eyesDrawable = extractFacePart(mBitmap, 2.0f, 1.2f, 0.f, -0.1f, alphaMaskEyes);
+		mFaceParts.add( new FacePart(eyesDrawable, eyesDrawable.getIntrinsicWidth()/mEyesDetectedDistance , eyesDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.05f, 0.15f) );
+
+        Bitmap alphaMaskNose = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_nose, alphaOptions);
+        BitmapDrawable noseDrawable = extractFacePart(mBitmap, 1.1f, 1.3f, 0.f, 0.4f, alphaMaskNose);
+		mFaceParts.add(  new FacePart(noseDrawable, noseDrawable.getIntrinsicWidth()/mEyesDetectedDistance , noseDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.15f, 0.15f) );
+        
+        Bitmap alphaMaskMouth = BitmapFactory.decodeResource(context.getResources(), R.drawable.alphamask_mouth, alphaOptions);
+        BitmapDrawable mouthDrawable = extractFacePart(mBitmap, 1.4f, 0.7f, 0.f, 1.1f, alphaMaskMouth);
+        mFaceParts.add(  new FacePart(mouthDrawable, mouthDrawable.getIntrinsicWidth()/mEyesDetectedDistance , mouthDrawable.getIntrinsicHeight()/mEyesDetectedDistance, 0.15f, 0.15f) );
+    }
+
+    public boolean isFaceDetected() {
 		return mFaceDetected;
 	}
 

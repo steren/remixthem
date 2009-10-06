@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,21 +38,27 @@ public class RemixThemEditor extends Activity {
     public static final int REQUEST_CODE_TAKE_PICTURE   	= 1;
     public static final int REQUEST_CODE_USE_IMAGE     		= 2;
     public static final int REQUEST_CODE_USE_CONTACT_IMAGE 	= 3;
+    public static final int REQUEST_CODE_MANUAL_INPUT 		= 10;
     
     public static final int DEFINE_HEIGHT = 400; 
     
-    /** Which Editor are we using (remix = 0 or mix = 1) */
+    /** Which Editor are we using (remix = 0 / mix = 1) */
     private int mEditor = 0;
     
     /** If the menu has been displayed */
     private boolean mMenuDisplayed;
     
-    /** If photo(s) have been load, display the editor */
+    /** If photo(s) have been loaded, display the editor */
     private boolean mReadyToEdit;
     
-    /** A handle to the View in which the RemixThem is running. */
+    /** The main remixthem view  */
     private RemixThemView mRemixThemView;    
     
+    /** The Bitmap currently processed
+     * is static because can be called from an other activity 
+     */
+    public static Bitmap mCurrentBitmap;
+
     /** Called when the activity is first created. */ 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +74,6 @@ public class RemixThemEditor extends Activity {
         }else {
         	setTitle(R.string.activity_remix);
         	setContentView(R.layout.editormenu);
-        	
         }
 
         Button button_take = (Button) findViewById(R.id.button_take);
@@ -126,12 +132,11 @@ public class RemixThemEditor extends Activity {
     	MenuInflater inflater = getMenuInflater();
     	if( mEditor == 1 ) {
     		inflater.inflate(R.menu.menu_mix, menu);
-    	}else {
+    	} else {
     		inflater.inflate(R.menu.menu_remix, menu);
     	}
-    	
     	displayMenu(menu, false);
-    	
+
     	return true;
     }
     
@@ -249,7 +254,7 @@ public class RemixThemEditor extends Activity {
 		                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
 		                	
 		                	//Compute the sub-sample ratio :
-		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT );
+		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
 		                			                	
 		                	//Prepare to load Bitmap
 		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -287,6 +292,14 @@ public class RemixThemEditor extends Activity {
 	            	}
 	            	break;
 	            	
+	            case REQUEST_CODE_MANUAL_INPUT:
+	            	if(resultCode == Activity.RESULT_OK) {
+		            	mRemixThemView.addHead(	this, 	mCurrentBitmap,
+								new PointF( data.getExtras().getFloat("EyePositionX", 10) , data.getExtras().getFloat("EyePositionY", 10) ),
+								data.getExtras().getFloat("EyeDistance", 10) );	 		
+	            	}
+	            	break;
+	            	
 	            default:
 	                break;
         }
@@ -299,8 +312,6 @@ public class RemixThemEditor extends Activity {
 			return;
         }
 
-        Bitmap faceBitmapOK = faceBitmap;
-        
         //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
     	int height = faceBitmap.getHeight();
         if (height > DEFINE_HEIGHT) {
@@ -315,17 +326,24 @@ public class RemixThemEditor extends Activity {
 	        // resize the bit map
 	        matrix.postScale(scaleWidth, scaleHeight);
 	        // create the new Bitmap
-	        faceBitmapOK = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
+	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
         }
         
-        if (mRemixThemView.addHead(this, faceBitmapOK) == false)
+        if (mRemixThemView.addHead(this, faceBitmap) == false)
         {
-		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        	mCurrentBitmap = faceBitmap;
+        	
+        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	        builder.setIcon(R.drawable.alert_icon);
 		    builder.setTitle(R.string.nofacedetected);
 		    builder.setMessage(R.string.nofacedetected_message);
-	        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	            public void onClick(DialogInterface dialog, int whichButton) {
+	            }
+	        });
+	        builder.setPositiveButton(R.string.BTN_manual, new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int whichButton) {
+	            	startManualMode();
 	            }
 	        });
 	        AlertDialog alert = builder.create();
@@ -333,7 +351,19 @@ public class RemixThemEditor extends Activity {
 	        
 	        return; 
         }
-        
+
+        whatToDoAfterHeadAdded();
+    }
+
+    /**
+     * Call this to start the manual mode
+     */
+    public void startManualMode() {
+    	Intent intent = new Intent(this, RemixThemManual.class);
+    	startActivityForResult(intent , REQUEST_CODE_MANUAL_INPUT);
+    }
+    
+    private void whatToDoAfterHeadAdded(){
         //if everything succeeded
         if(mEditor == 0) { //If we are in remix
         	//select a random preset

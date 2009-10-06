@@ -397,6 +397,28 @@ class RemixThemView extends View {
 	}
 
 	/**
+	 * add a new face with parameters to the Heads vector
+	 * @param context	: context of the activity
+	 * @param faceBitmap : the Bitmap of the new face
+	 * @param eyePosition : the position of the center of the eyes
+	 * @param eyeDistance : distance between the eyes
+	 * @return if a face was detected or not.
+	 */
+	public boolean addHead(Context context, Bitmap faceBitmap, PointF eyePosition, float eyeDistance) {
+	    BackgroundFace backgroundface = new BackgroundFace(context, faceBitmap, eyePosition, eyeDistance);
+	    
+	    if(backgroundface.isFaceDetected()) {
+		    if(mHeads.isEmpty()) {
+		    	mActiveCompo = new Compo(backgroundface);
+		    }
+		    mHeads.add(backgroundface);	    	
+	    }
+	    
+	    return backgroundface.isFaceDetected();
+	}
+	
+	
+	/**
 	 * How many heads are in the system ?
 	 * @return number of heads
 	 */

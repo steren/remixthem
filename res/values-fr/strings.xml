@@ -5,8 +5,10 @@
     <string name="activity_remix">RemixThem Remixer</string>
     <string name="activity_mix">RemixThem Mélanger</string>
     <string name="activity_gallery">RemixThem Galerie</string>
+    <string name="activity_manual">RemixThem Sélection manuelle</string>
     
-    <string name="ok">OK</string>    
+    <string name="ok">OK</string> 
+    <string name="cancel">Annuler</string>       
       
     <string name="hello_editor_remix">Bonjour\nCommencez par sélectionner une photo du visage d\'un ami.</string>
     <string name="picture_take">Nouvelle photo</string>
@@ -16,7 +18,7 @@
     <string name="new_picture_editor">J\'ai votre premier visage, sélectionnez-en un deuxième.</string>
     
     <string name="nofacedetected">Désolé,</string>
-    <string name="nofacedetected_message">Je ne trouve pas de visage dans cette photo.\nVous devriez essayer d\'en prendre une nouvelle.</string>
+    <string name="nofacedetected_message">Je ne trouve pas de visage dans cette photo.\nVous devriez essayer d\'en prendre une nouvelle ou d\'utiliser le mode manuel.</string>
     <string name="nocontactfacedetected_message">Je ne trouve pas de photo dans ce contact.\nVous devriez essayer d\'en choisir un autre.</string>
 
     <string name="takepicture">Prenez en photo le visage d\'un ami</string>
@@ -36,6 +38,7 @@
     <string name="BTN_remixfriend">Remixer</string>
     <string name="BTN_mixfriends">Mélanger</string>
     <string name="BTN_gallery">Galerie</string>
+    <string name="BTN_manual">Mode manuel</string>
 
     <string name="TITLE_edit">RemixThem Editer</string>
     <string name="TITLE_change">RemixThem Changer</string>
@@ -45,4 +48,10 @@
     <string name="email_subject">RemixThem</string>
     <string name="email_body">Réalisé en utilisant l\'application RemixThem de mon téléphone Android.\nhttp://remixthem.steren.fr</string>
     
+    <string name="manual_pick_eye">Touchez l'oeil gauche.</string>
+    <string name="manual_first_eye">Position de l'oeil droit enregistrée, touchez le gauche.</string>
+    <string name="manual_second_eye">Second oeil enregistré. Menu \> OK pour finir.</string>
+    <string name="manual_OK">OK</string>
+    <string name="please_2_eyes">Les deux yeux n'ont pas été sélectionnés</string>
+
 </resources>

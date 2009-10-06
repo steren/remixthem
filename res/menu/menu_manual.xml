@@ -1,0 +1,4 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/manual_cancel" android:title="@string/cancel" android:icon="@drawable/ic_menu_done"></item>
+	<item android:id="@+id/manual_ok" android:title="@string/ok" android:icon="@drawable/ic_menu_done"></item>
+</menu>

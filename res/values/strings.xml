@@ -5,8 +5,10 @@
     <string name="activity_remix">RemixThem Remix</string>
     <string name="activity_mix">RemixThem Mix</string>
     <string name="activity_gallery">RemixThem Gallery</string>
+    <string name="activity_manual">RemixThem Manual selection</string>
     
-    <string name="ok">OK</string>    
+    <string name="ok">OK</string>   
+    <string name="cancel">Cancel</string>    
     
     <string name="hello_editor_remix">Hello\nStart by selecting a picture of a friend\'s face.</string>
     <string name="picture_take">New picture</string>
@@ -16,7 +18,7 @@
     <string name="new_picture_editor">Great!\nI\'ve got the first face, now select the second one please.</string>
         
     <string name="nofacedetected">Sorry,</string>
-    <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nYou should try to take a new one.</string>
+    <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nYou should try to take a new one or to use the manual mode.</string>
     <string name="nocontactfacedetected_message">I couldn\'t find a picture for this contact.\nYou should try to pick another one.</string>
 
     
@@ -37,6 +39,7 @@
     <string name="BTN_remixfriend">Edit a friend</string>
     <string name="BTN_mixfriends">Mix friends</string>
     <string name="BTN_gallery">Gallery</string>
+    <string name="BTN_manual">Manual</string>
 
     <string name="TITLE_edit">RemixThem Edit Mode</string>
     <string name="TITLE_change">RemixThem Change Mode</string>
@@ -46,5 +49,11 @@
     <string name="email_subject">RemixThem</string>
     <string name="email_body">Made using the RemixThem application on my Android phone.\nhttp://remixthem.steren.fr</string>
     
+    <string name="manual_pick_eye">Touch the left eye.</string>
+    <string name="manual_first_eye">Left eye saved. Now touch the right eye.</string>
+    <string name="manual_second_eye">Right eye saved. Menu \> OK to finish.</string>
+    <string name="manual_OK">OK</string>
+    
+    <string name="please_2_eyes">The two eyes have not been selected</string>
         
 </resources>
