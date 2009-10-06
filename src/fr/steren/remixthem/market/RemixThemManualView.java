@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -42,18 +43,21 @@ public class RemixThemManualView extends View {
 	
     @Override public boolean onTouchEvent(MotionEvent event) {
     	int action = event.getAction();
-    	Point touchedPoint = new Point( (int)event.getX(), (int)event.getY());
     	
-    	if(mEye1 == null) {
-    		mEye1 = touchedPoint;
-    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_LONG).show();
-    	} else {
-    		mEye2 = touchedPoint;
-    		Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_LONG).show();
+    	if (action == MotionEvent.ACTION_DOWN) {
+	    	Point touchedPoint = new Point( (int)event.getX(), (int)event.getY());
+	    	
+	    	if(mEye1 == null) {
+	    		mEye1 = touchedPoint;
+	    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_LONG).show();
+	    	} else {
+	    		mEye2 = touchedPoint;
+	    		Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_LONG).show();
+	    	}
+	    	return true;
     	}
-    	return true;
+    	return false;
     }
-
     /**
      * get the position of the center of the eyes
      * @return the center of the eyes in the Bitmap
