@@ -41,7 +41,6 @@ public class RemixThemManual extends Activity {
 
         case R.id.manual_ok:
         	grabManualInputInfo();
-        	finish();
         	return true;
         case R.id.manual_cancel:
         	setResult(RESULT_CANCELED);
@@ -61,8 +60,7 @@ public class RemixThemManual extends Activity {
             	data.putExtra("EyePositionY", mRemixThemManualInputView.getEyePosition().y	);
             	data.putExtra("EyeDistance"	, mRemixThemManualInputView.getEyeDistance()	);
             	setResult(RESULT_OK, data);
-            	
-            	//mRemixThemView.addHead(this, mRemixThemManualInputView.getBitmap(), mRemixThemManualInputView.getEyePosition(), mRemixThemManualInputView.getEyeDistance());
+            	finish();
         	} else {
         		Toast.makeText(this, R.string.please_2_eyes,Toast.LENGTH_LONG).show();
         	}

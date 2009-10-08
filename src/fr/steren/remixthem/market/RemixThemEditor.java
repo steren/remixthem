@@ -294,9 +294,15 @@ public class RemixThemEditor extends Activity {
 	            	
 	            case REQUEST_CODE_MANUAL_INPUT:
 	            	if(resultCode == Activity.RESULT_OK) {
-		            	mRemixThemView.addHead(	this, 	mCurrentBitmap,
-								new PointF( data.getExtras().getFloat("EyePositionX", 10) , data.getExtras().getFloat("EyePositionY", 10) ),
-								data.getExtras().getFloat("EyeDistance", 10) );	 		
+	            		
+	            		float posX = 70f; //data.getExtras().getFloat("EyePositionX", 10);
+	            		float posY = 130f; //data.getExtras().getFloat("EyePositionY", 10);
+	            		float dist = 60f; //data.getExtras().getFloat("EyeDistance", 10);
+	            		
+	            		
+		            	if( mRemixThemView.addHead(	this, mCurrentBitmap,new PointF(posX,posY), dist ) == true) {
+		                    whatToDoAfterHeadAdded();	 		
+		            	}
 	            	}
 	            	break;
 	            	
@@ -329,8 +335,9 @@ public class RemixThemEditor extends Activity {
 	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
         }
         
-        if (mRemixThemView.addHead(this, faceBitmap) == false)
-        {
+        if (mRemixThemView.addHead(this, faceBitmap) == true) {
+            whatToDoAfterHeadAdded();	
+        } else {
         	mCurrentBitmap = faceBitmap;
         	
         	AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -348,11 +355,8 @@ public class RemixThemEditor extends Activity {
 	        });
 	        AlertDialog alert = builder.create();
 	        alert.show();
-	        
-	        return; 
         }
-
-        whatToDoAfterHeadAdded();
+        return; 
     }
 
     /**

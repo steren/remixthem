@@ -70,6 +70,8 @@ public class BackgroundFace {
     	mFaceDetected = true;
         mDrawable = new BitmapDrawable(faceBitmap);
         mBitmap = faceBitmap;
+        //create face parts
+        createFaceParts(context);
     }
     
     private void createFaceParts(Context context) {
