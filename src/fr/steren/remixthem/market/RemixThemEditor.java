@@ -212,22 +212,19 @@ public class RemixThemEditor extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	if(data != null)
+    	if(data != null && resultCode == Activity.RESULT_OK)
     	{
 	        switch(requestCode) {
 	            case REQUEST_CODE_TAKE_PICTURE:
-	            	
 	            	Bitmap bitmap = (Bitmap) data.getParcelableExtra("data");
 	            	
-	            	//TODO URI use image Uri
+	            	//TODO URI use image Uri to work with bigger images
 	            	/*
                 	BitmapFactory.Options getBoundsOptions2 = new BitmapFactory.Options();
                 	getBoundsOptions2.inJustDecodeBounds = true;
                 	BitmapFactory.decodeFile( mTempUri.getPath(), getBoundsOptions2);
-
                 	//Compute the sub-sample ratio :
                 	int ratio2 = ( getBoundsOptions2.outHeight / DEFINE_HEIGHT );
-                			                	
                 	//Prepare to load Bitmap
         	        BitmapFactory.Options bitmapOptions2 = new BitmapFactory.Options();
         	        bitmapOptions2.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -237,35 +234,34 @@ public class RemixThemEditor extends Activity {
                 	
                     //Extract the face from this bitmap
             		receiveBitmap(bitmap);
-	                break;
-	
+                break;
+	                
 	            case REQUEST_CODE_USE_IMAGE:
-		                Uri uri = data.getData();
-		                if(uri != null) {
-		                	uri.getEncodedPath();
-		                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
-		                	cursor.moveToFirst();
-		                	String imageFilePath = cursor.getString(0);
-		                	cursor.close(); 
-		
-		                	//First get the bounds of the Bitmap
-		                	BitmapFactory.Options getBoundsOptions = new BitmapFactory.Options();
-		                	getBoundsOptions.inJustDecodeBounds = true;
-		                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
-		                	
-		                	//Compute the sub-sample ratio :
-		                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
-		                			                	
-		                	//Prepare to load Bitmap
-		        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-		        	        bitmapOptions.inSampleSize = ratio;
-		                	Bitmap sampledBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
-		                	
-		                    //Extract the face from this bitmap
-		            		receiveBitmap(sampledBitmap);
-		                }
+	                Uri uri = data.getData();
+	                if(uri != null) {
+	                	uri.getEncodedPath();
+	                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+	                	cursor.moveToFirst();
+	                	String imageFilePath = cursor.getString(0);
+	                	cursor.close(); 
 	
+	                	//First get the bounds of the Bitmap
+	                	BitmapFactory.Options getBoundsOptions = new BitmapFactory.Options();
+	                	getBoundsOptions.inJustDecodeBounds = true;
+	                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
+	                	
+	                	//Compute the sub-sample ratio :
+	                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
+	                			                	
+	                	//Prepare to load Bitmap
+	        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+	        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+	        	        bitmapOptions.inSampleSize = ratio;
+	                	Bitmap sampledBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
+	                	
+	                    //Extract the face from this bitmap
+	            		receiveBitmap(sampledBitmap);
+	                }
 	                break;
 	            
 	            case REQUEST_CODE_USE_CONTACT_IMAGE:
@@ -293,15 +289,13 @@ public class RemixThemEditor extends Activity {
 	            	break;
 	            	
 	            case REQUEST_CODE_MANUAL_INPUT:
-	            	if(resultCode == Activity.RESULT_OK) {
-	            		Bundle extras = data.getExtras();
-	            		float posX = extras.getFloat("EyePositionX", 10);
-	            		float posY = extras.getFloat("EyePositionY", 10);
-	            		float dist = extras.getFloat("EyeDistance", 10);
-	            		
-		            	if( mRemixThemView.addHead(	this, mCurrentBitmap,new PointF(posX,posY), dist ) == true) {
-		                    whatToDoAfterHeadAdded();	 		
-		            	}
+            		Bundle extras = data.getExtras();
+            		float posX = extras.getFloat("EyePositionX", 10);
+            		float posY = extras.getFloat("EyePositionY", 10);
+            		float dist = extras.getFloat("EyeDistance", 10);
+            		
+	            	if( mRemixThemView.addHead(	this, mCurrentBitmap,new PointF(posX,posY), dist ) == true) {
+	                    whatToDoAfterHeadAdded();	 		
 	            	}
 	            	break;
 	            	
