@@ -3,6 +3,7 @@ package fr.steren.remixthem.market;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,13 +14,12 @@ import android.widget.Toast;
 
 public class RemixThemManualView extends View {
 
-	/* the picture */
+	/** the picture */
     private BitmapDrawable mDrawablePicture;
 	
-	/*Position of the eyes*/
+	/** Position of the eyes*/
 	private Point mEye1;
 	private Point mEye2;
-	
 	
 	public RemixThemManualView(Context context, Bitmap bitmap) {
 		super(context);
@@ -38,6 +38,18 @@ public class RemixThemManualView extends View {
 			
 		    mDrawablePicture.setBounds(positionLeft, positionTop, positionRight, positionBottom);
 	       	mDrawablePicture.draw(canvas);
+	       	
+	       	//if eyes have been selected, print circles on them.
+	       	if(mEye1 != null) {
+				Paint paint = new Paint();
+				paint.setARGB(180, 255, 255, 255);
+			    canvas.drawCircle(mEye1.x, mEye1.y, 3, paint);
+			    
+			    if(mEye2 != null) {
+				    canvas.drawCircle(mEye2.x, mEye2.y, 6, paint);
+			    }
+	       	}
+	       	
 		}
 	}
 	
@@ -50,12 +62,14 @@ public class RemixThemManualView extends View {
 	    	if(mEye1 == null) {
 	    		mEye1 = touchedPoint;
 	    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_SHORT).show();
+            	invalidate();
 	    	} else {
 	    		if(touchedPoint.x < mEye1.x) {
 	    			Toast.makeText(this.getContext(), R.string.manual_not_valid_eye2 , Toast.LENGTH_SHORT).show();  			
 	    		}else {
 	    			mEye2 = touchedPoint;
 	    			Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_SHORT).show();
+                	invalidate();
 	    		}
 	    	}	    		
 	    	return true;
