@@ -48,10 +48,10 @@
     <string name="email_subject">RemixThem</string>
     <string name="email_body">Réalisé en utilisant l\'application RemixThem de mon téléphone Android.\nhttp://remixthem.steren.fr</string>
     
-    <string name="manual_pick_eye">Touchez l'oeil gauche.</string>
-    <string name="manual_first_eye">Position de l'oeil droit enregistrée, touchez le gauche.</string>
-    <string name="manual_second_eye">Second oeil enregistré. Menu \> OK pour finir.</string>
+    <string name="manual_pick_eye">Touchez l\'oeil gauche.</string>
+    <string name="manual_first_eye">Position de l\'oeil gauche enregistrée, touchez maintenant le droit.</string>
+    <string name="manual_second_eye">Second oeil enregistré. Menu > OK pour finir.</string>
     <string name="manual_OK">OK</string>
-    <string name="please_2_eyes">Les deux yeux n'ont pas été sélectionnés</string>
+    <string name="please_2_eyes">Les deux yeux n'ont pas été sélectionnés.</string>
 
 </resources>

@@ -37,7 +37,7 @@ public class RemixThemManualView extends View {
 			
 		    mDrawablePicture.setBounds(positionLeft, positionTop, positionRight, positionBottom);
 	       	mDrawablePicture.draw(canvas);
-    		Toast.makeText(this.getContext(), R.string.manual_pick_eye , Toast.LENGTH_LONG);
+    		Toast.makeText(this.getContext(), R.string.manual_pick_eye , Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -49,10 +49,10 @@ public class RemixThemManualView extends View {
 	    	
 	    	if(mEye1 == null) {
 	    		mEye1 = touchedPoint;
-	    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_LONG).show();
+	    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_SHORT).show();
 	    	} else {
 	    		mEye2 = touchedPoint;
-	    		Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_LONG).show();
+	    		Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_SHORT).show();
 	    	}
 	    	return true;
     	}
