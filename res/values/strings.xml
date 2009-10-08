@@ -52,8 +52,8 @@
     <string name="manual_pick_eye">Touch the left eye.</string>
     <string name="manual_first_eye">Left eye saved. Now touch the right eye.</string>
     <string name="manual_second_eye">Right eye saved. Menu > OK to finish.</string>
+    <string name="manual_not_valid_eye2">Second eye must be on the right of the first one.</string>
     <string name="manual_OK">OK</string>
-    
     <string name="please_2_eyes">The two eyes have not been selected</string>
         
 </resources>

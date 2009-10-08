@@ -294,11 +294,10 @@ public class RemixThemEditor extends Activity {
 	            	
 	            case REQUEST_CODE_MANUAL_INPUT:
 	            	if(resultCode == Activity.RESULT_OK) {
-	            		
-	            		float posX = 70f; //data.getExtras().getFloat("EyePositionX", 10);
-	            		float posY = 130f; //data.getExtras().getFloat("EyePositionY", 10);
-	            		float dist = 60f; //data.getExtras().getFloat("EyeDistance", 10);
-	            		
+	            		Bundle extras = data.getExtras();
+	            		float posX = extras.getFloat("EyePositionX", 10);
+	            		float posY = extras.getFloat("EyePositionY", 10);
+	            		float dist = extras.getFloat("EyeDistance", 10);
 	            		
 		            	if( mRemixThemView.addHead(	this, mCurrentBitmap,new PointF(posX,posY), dist ) == true) {
 		                    whatToDoAfterHeadAdded();	 		

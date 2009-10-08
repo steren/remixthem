@@ -24,6 +24,7 @@ public class RemixThemManualView extends View {
 	public RemixThemManualView(Context context, Bitmap bitmap) {
 		super(context);
 		mDrawablePicture = new BitmapDrawable(bitmap);
+		Toast.makeText(this.getContext(), R.string.manual_pick_eye , Toast.LENGTH_SHORT).show();
 	}
 
 	@Override protected void onDraw(Canvas canvas) {
@@ -37,7 +38,6 @@ public class RemixThemManualView extends View {
 			
 		    mDrawablePicture.setBounds(positionLeft, positionTop, positionRight, positionBottom);
 	       	mDrawablePicture.draw(canvas);
-    		Toast.makeText(this.getContext(), R.string.manual_pick_eye , Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -51,9 +51,13 @@ public class RemixThemManualView extends View {
 	    		mEye1 = touchedPoint;
 	    		Toast.makeText(this.getContext(), R.string.manual_first_eye , Toast.LENGTH_SHORT).show();
 	    	} else {
-	    		mEye2 = touchedPoint;
-	    		Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_SHORT).show();
-	    	}
+	    		if(touchedPoint.x < mEye1.x) {
+	    			Toast.makeText(this.getContext(), R.string.manual_not_valid_eye2 , Toast.LENGTH_SHORT).show();  			
+	    		}else {
+	    			mEye2 = touchedPoint;
+	    			Toast.makeText(this.getContext(), R.string.manual_second_eye , Toast.LENGTH_SHORT).show();
+	    		}
+	    	}	    		
 	    	return true;
     	}
     	return false;
@@ -73,7 +77,7 @@ public class RemixThemManualView extends View {
      * @return the distance between the 2 eyes
      */
 	public float getEyeDistance() {
-		float distance = ((float) ((mEye2.y - mEye1.y) * mDrawablePicture.getBitmap().getWidth())) / mDrawablePicture.getBounds().width()  ; 		
+		float distance = ((float) ((mEye2.x - mEye1.x) * mDrawablePicture.getBitmap().getWidth())) / mDrawablePicture.getBounds().width()  ; 		
 		return distance;
 	}
 	

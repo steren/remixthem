@@ -51,6 +51,7 @@
     <string name="manual_pick_eye">Touchez l\'oeil gauche.</string>
     <string name="manual_first_eye">Position de l\'oeil gauche enregistrée, touchez maintenant le droit.</string>
     <string name="manual_second_eye">Second oeil enregistré. Menu > OK pour finir.</string>
+    <string name="manual_not_valid_eye2">Le second oeil doit être à droite du premier.</string>
     <string name="manual_OK">OK</string>
     <string name="please_2_eyes">Les deux yeux n'ont pas été sélectionnés.</string>
 
