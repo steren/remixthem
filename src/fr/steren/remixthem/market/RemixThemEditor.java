@@ -311,8 +311,8 @@ public class RemixThemEditor extends Activity {
 			return;
         }
 
-    	int height = faceBitmap.getHeight();
     	int width = faceBitmap.getWidth();
+    	int height = faceBitmap.getHeight();
     	
         //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
     	if (height > DEFINE_HEIGHT) {
@@ -339,7 +339,7 @@ public class RemixThemEditor extends Activity {
         		//rotate
         		Matrix matrix = new Matrix();
     	        matrix.postRotate(+90f);
-    	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
+    	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, faceBitmap.getWidth(), faceBitmap.getHeight(), matrix, true); 
     	        //try again
     	        receiveBitmap(faceBitmap);
         	} else {
