@@ -30,7 +30,7 @@ public class CompoPart {
 	}
 	
 	public void resetParams() {
-		mParams = mOriginalParams;
+		mParams.copyFromParams(mOriginalParams);
 	}
 	
 }

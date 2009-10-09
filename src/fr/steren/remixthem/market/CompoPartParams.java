@@ -49,4 +49,10 @@ public class CompoPartParams {
 		}
 	}
 	
+	public void copyFromParams( CompoPartParams params ) {
+		setCenterPosition(params.getCenterPosition());
+		setRotation(params.getRotation());
+		setScale(params.getScale());
+	}
+	
 }
