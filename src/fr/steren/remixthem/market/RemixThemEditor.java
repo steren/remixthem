@@ -314,58 +314,53 @@ public class RemixThemEditor extends Activity {
     	int height = faceBitmap.getHeight();
     	int width = faceBitmap.getWidth();
     	
-    	boolean	recreateBitmap 	= false;
-    	float 	scaleWidth 		= 1f;
-    	float 	scaleHeight		= 1f;
-    	float 	angle 			= 0f;
-    	
-    	//Make sure picture is vertical, otherwise flip it
-    	if(width > height) {
-    		//assume that we must flip the bitmap of -90°
-    		angle = +90f;
-    		recreateBitmap = true;
-    	}
-        
         //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
     	if (height > DEFINE_HEIGHT) {
 	    	float newHeight = DEFINE_HEIGHT;
 	        float newWidth =  (float)(newHeight * width) / (float)(height);
 	        // calculate the scale
-	        scaleWidth = newWidth / ((float) width);
-	        scaleHeight = newHeight / ((float) height);
-        }
-    	
-    	if(recreateBitmap) {
+	        float scaleWidth = newWidth / ((float) width);
+	        float scaleHeight = newHeight / ((float) height);
+
 	        // create a matrix for the manipulation
 	        Matrix matrix = new Matrix();
 	        // resize the bitmap
 	        matrix.postScale(scaleWidth, scaleHeight);
-	        // rotate the bitmap
-	        matrix.postRotate(angle);
 	        // create the new Bitmap
 	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
     	}
-        
+
+    	//Try to detect face
         if (mRemixThemView.addHead(this, faceBitmap) == true) {
             whatToDoAfterHeadAdded();	
         } else {
-        	mCurrentBitmap = faceBitmap;
-        	
-        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	        builder.setIcon(R.drawable.alert_icon);
-		    builder.setTitle(R.string.nofacedetected);
-		    builder.setMessage(R.string.nofacedetected_message);
-	        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialog, int whichButton) {
-	            }
-	        });
-	        builder.setPositiveButton(R.string.BTN_manual, new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialog, int whichButton) {
-	            	startManualMode();
-	            }
-	        });
-	        AlertDialog alert = builder.create();
-	        alert.show();
+        	//If no face detected, check if picture horizontal, if so turn it and try again.
+        	if(width > height) {
+        		//rotate
+        		Matrix matrix = new Matrix();
+    	        matrix.postRotate(+90f);
+    	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
+    	        //try again
+    	        receiveBitmap(faceBitmap);
+        	} else {
+	        	mCurrentBitmap = faceBitmap;
+	        	
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		        builder.setIcon(R.drawable.alert_icon);
+			    builder.setTitle(R.string.nofacedetected);
+			    builder.setMessage(R.string.nofacedetected_message);
+		        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int whichButton) {
+		            }
+		        });
+		        builder.setPositiveButton(R.string.BTN_manual, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int whichButton) {
+		            	startManualMode();
+		            }
+		        });
+		        AlertDialog alert = builder.create();
+		        alert.show();
+        	}
         }
         return; 
     }
