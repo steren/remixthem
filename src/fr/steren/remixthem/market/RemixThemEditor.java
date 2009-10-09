@@ -246,12 +246,12 @@ public class RemixThemEditor extends Activity {
 	                	cursor.close(); 
 	
 	                	//First get the bounds of the Bitmap
-	                	BitmapFactory.Options getBoundsOptions = new BitmapFactory.Options();
-	                	getBoundsOptions.inJustDecodeBounds = true;
-	                	BitmapFactory.decodeFile(imageFilePath, getBoundsOptions);
+	                	BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+	                	boundsOptions.inJustDecodeBounds = true;
+	                	BitmapFactory.decodeFile(imageFilePath, boundsOptions);
 	                	
 	                	//Compute the sub-sample ratio :
-	                	int ratio = ( getBoundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
+	                	int ratio = ( boundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
 	                			                	
 	                	//Prepare to load Bitmap
 	        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -311,22 +311,40 @@ public class RemixThemEditor extends Activity {
 			return;
         }
 
-        //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
     	int height = faceBitmap.getHeight();
-        if (height > DEFINE_HEIGHT) {
-	    	int width = faceBitmap.getWidth();
+    	int width = faceBitmap.getWidth();
+    	
+    	boolean	recreateBitmap 	= false;
+    	float 	scaleWidth 		= 1f;
+    	float 	scaleHeight		= 1f;
+    	float 	angle 			= 0f;
+    	
+    	//Make sure picture is vertical, otherwise flip it
+    	if(width > height) {
+    		//assume that we must flip the bitmap of -90°
+    		angle = +90f;
+    		recreateBitmap = true;
+    	}
+        
+        //Make sure the bitmap height is under DEFINE_HEIGHT otherwise, resize it
+    	if (height > DEFINE_HEIGHT) {
 	    	float newHeight = DEFINE_HEIGHT;
 	        float newWidth =  (float)(newHeight * width) / (float)(height);
 	        // calculate the scale
-	        float scaleWidth = newWidth / ((float) width);
-	        float scaleHeight = newHeight / ((float) height);
+	        scaleWidth = newWidth / ((float) width);
+	        scaleHeight = newHeight / ((float) height);
+        }
+    	
+    	if(recreateBitmap) {
 	        // create a matrix for the manipulation
 	        Matrix matrix = new Matrix();
-	        // resize the bit map
+	        // resize the bitmap
 	        matrix.postScale(scaleWidth, scaleHeight);
+	        // rotate the bitmap
+	        matrix.postRotate(angle);
 	        // create the new Bitmap
 	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, width, height, matrix, true); 
-        }
+    	}
         
         if (mRemixThemView.addHead(this, faceBitmap) == true) {
             whatToDoAfterHeadAdded();	
