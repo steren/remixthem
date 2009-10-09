@@ -43,7 +43,7 @@ public class RemixThemManualView extends View {
 	       	if(mEye1 != null) {
 				Paint paint = new Paint();
 				paint.setARGB(180, 255, 255, 255);
-			    canvas.drawCircle(mEye1.x, mEye1.y, 3, paint);
+			    canvas.drawCircle(mEye1.x, mEye1.y, 6, paint);
 			    
 			    if(mEye2 != null) {
 				    canvas.drawCircle(mEye2.x, mEye2.y, 6, paint);
