@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -452,7 +453,7 @@ public class RemixThemEditor extends Activity {
 	        DateFormat dateFormat = new SimpleDateFormat("MM-dd_HH-mm-ss");
 	        Date date = new Date();
 	        return "RemixThem_"+ dateFormat.format(date);
-	    }
+	}
     
     private void send() {
 
