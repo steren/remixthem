@@ -40,6 +40,7 @@ public class RemixThemEditor extends Activity {
     public static final int REQUEST_CODE_USE_IMAGE     		= 2;
     public static final int REQUEST_CODE_USE_CONTACT_IMAGE 	= 3;
     public static final int REQUEST_CODE_MANUAL_INPUT 		= 10;
+    public static final int REQUEST_CODE_SEND	 			= 20;  
     
     public static final int DEFINE_HEIGHT = 400; 
     
@@ -59,7 +60,12 @@ public class RemixThemEditor extends Activity {
      * is static because can be called from an other activity 
      */
     public static Bitmap mCurrentBitmap;
-
+    
+    /**
+     * A temp URI where will be stored the picture taken with the camera.
+     */
+    private Uri mTempUri; 
+    
     /** Called when the activity is first created. */ 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +114,7 @@ public class RemixThemEditor extends Activity {
     private void takePicture() {
     	Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     	
-    	//TODO URI : maybe give an Uri
-    	/*
+    	// Use an URI
     	// Save the name and description of an image in a ContentValues map.  
     	ContentValues values = new ContentValues(3);
     	values.put(Media.DISPLAY_NAME, "remixthem");
@@ -117,8 +122,8 @@ public class RemixThemEditor extends Activity {
     	values.put(Media.MIME_TYPE, "image/jpeg");
     	// Add a new record without the bitmap, but with the values just set.
     	// insert() returns the URI of the new record.
-    	Uri mTempUri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
-    	imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTempUri); */
+    	mTempUri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+    	imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mTempUri);
     	
     	startActivityForResult(imageCaptureIntent, REQUEST_CODE_TAKE_PICTURE);
     }
@@ -213,55 +218,28 @@ public class RemixThemEditor extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	if(data != null && resultCode == Activity.RESULT_OK)
+    	if(resultCode == Activity.RESULT_OK)
     	{
 	        switch(requestCode) {
 	            case REQUEST_CODE_TAKE_PICTURE:
-	            	Bitmap bitmap = (Bitmap) data.getParcelableExtra("data");
+	            	// Old code to use if the URI is given (a small sized image is returned).
+	            	// Bitmap sampledBitmapTake = (Bitmap) data.getParcelableExtra("data");
 	            	
-	            	//TODO URI use image Uri to work with bigger images
-	            	/*
-                	BitmapFactory.Options getBoundsOptions2 = new BitmapFactory.Options();
-                	getBoundsOptions2.inJustDecodeBounds = true;
-                	BitmapFactory.decodeFile( mTempUri.getPath(), getBoundsOptions2);
-                	//Compute the sub-sample ratio :
-                	int ratio2 = ( getBoundsOptions2.outHeight / DEFINE_HEIGHT );
-                	//Prepare to load Bitmap
-        	        BitmapFactory.Options bitmapOptions2 = new BitmapFactory.Options();
-        	        bitmapOptions2.inPreferredConfig = Bitmap.Config.RGB_565;
-        	        bitmapOptions2.inSampleSize = ratio2;
-                	Bitmap sampledBitmap2 = BitmapFactory.decodeFile(mTempUri.getPath(), bitmapOptions2);
-                	*/
+	            	Bitmap sampledBitmapTake = preSampleBitmap(mTempUri);
+                	
+                	// delete the image saved by the camera
+                	getContentResolver().delete(mTempUri, null, null);
                 	
                     //Extract the face from this bitmap
-            		receiveBitmap(bitmap);
+            		loadBitmap(sampledBitmapTake);
                 break;
 	                
 	            case REQUEST_CODE_USE_IMAGE:
 	                Uri uri = data.getData();
 	                if(uri != null) {
-	                	uri.getEncodedPath();
-	                	Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
-	                	cursor.moveToFirst();
-	                	String imageFilePath = cursor.getString(0);
-	                	cursor.close(); 
-	
-	                	//First get the bounds of the Bitmap
-	                	BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
-	                	boundsOptions.inJustDecodeBounds = true;
-	                	BitmapFactory.decodeFile(imageFilePath, boundsOptions);
-	                	
-	                	//Compute the sub-sample ratio :
-	                	int ratio = ( boundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
-	                			                	
-	                	//Prepare to load Bitmap
-	        	        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-	        	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-	        	        bitmapOptions.inSampleSize = ratio;
-	                	Bitmap sampledBitmap = BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
-	                	
+	                	Bitmap sampledBitmapUse = preSampleBitmap(uri);
 	                    //Extract the face from this bitmap
-	            		receiveBitmap(sampledBitmap);
+	            		loadBitmap(sampledBitmapUse);
 	                }
 	                break;
 	            
@@ -273,7 +251,7 @@ public class RemixThemEditor extends Activity {
 			            	BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			    	        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 			            	Bitmap contactBitmap = BitmapFactory.decodeStream(contactPictureStream, null, bitmapOptions);
-			        		receiveBitmap(contactBitmap);
+			        		loadBitmap(contactBitmap);
 	            		}else {
 	            		    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	            	        builder.setIcon(R.drawable.alert_icon);
@@ -303,10 +281,50 @@ public class RemixThemEditor extends Activity {
 	            default:
 	                break;
         }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+        	// This is strange but the SEND intent always returns RESULT_CANCELED as resultCode.
+        	if(requestCode == REQUEST_CODE_SEND) {
+            	// TODO delete the temp image but have to be sent first
+            	// getContentResolver().delete(mTempUri, null, null);
+        	} else {
+    			Toast.makeText(this, "Operation cancelled by the user",Toast.LENGTH_LONG).show();
+        	}
+        	
         }
     }
     
-    private void receiveBitmap(Bitmap faceBitmap) {
+    /**
+     * Check the size of the bitmap and load a sub-sampled bitmap if necessary
+     * @param uri : the URI of the bitmap.
+     * @return : the bitmap loaded in memory at the right size.
+     */
+    private Bitmap preSampleBitmap(Uri uri) {
+    	// get path from URI
+    	Cursor cursorUse = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+    	cursorUse.moveToFirst();
+    	String imageFilePath = cursorUse.getString(0);
+    	cursorUse.close(); 
+    	
+    	//First get the bounds of the Bitmap
+    	BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+    	boundsOptions.inJustDecodeBounds = true;
+    	BitmapFactory.decodeFile(imageFilePath, boundsOptions);
+    	
+    	//Compute the sub-sample ratio :
+    	int ratio = ( boundsOptions.outHeight / DEFINE_HEIGHT ) + 1;
+    			                	
+    	//Prepare to load Bitmap
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+        bitmapOptions.inSampleSize = ratio;
+    	return BitmapFactory.decodeFile(imageFilePath, bitmapOptions);
+    }
+    
+    /**
+     * load bitmap into the editor (detect faces and all)
+     * @param faceBitmap : the bitmap to load
+     */
+    private void loadBitmap(Bitmap faceBitmap) {
         if (faceBitmap == null) {
 			Toast.makeText(this, R.string.ERROR_bitmap_null,Toast.LENGTH_LONG).show(); 
 			return;
@@ -342,7 +360,7 @@ public class RemixThemEditor extends Activity {
     	        matrix.postRotate(+90f);
     	        faceBitmap = Bitmap.createBitmap(faceBitmap, 0, 0, faceBitmap.getWidth(), faceBitmap.getHeight(), matrix, true); 
     	        //try again
-    	        receiveBitmap(faceBitmap);
+    	        loadBitmap(faceBitmap);
         	} else {
 	        	mCurrentBitmap = faceBitmap;
 	        	
@@ -382,6 +400,7 @@ public class RemixThemEditor extends Activity {
         	setContentView(mRemixThemView);
         	setTitle(R.string.app_name);
         	mReadyToEdit = true;
+			Toast.makeText(this, R.string.press_menu_for_option, Toast.LENGTH_LONG).show();
         	return;
         } else if(mEditor == 1 &&  mRemixThemView.getHeadNumber()==1) { //if we ask 2 pictures and have only one
         	//change the text
@@ -464,25 +483,25 @@ public class RemixThemEditor extends Activity {
     	values.put(Media.MIME_TYPE, "image/jpeg");
     	// Add a new record without the bitmap, but with the values just set.
     	// insert() returns the URI of the new record.
-    	Uri uri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+    	mTempUri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
 
     	// Now get a handle to the file for that record, and save the data into it.
     	// Here, sourceBitmap is a Bitmap object representing the file to save to the database.
     	try {
-    	    OutputStream outStream = getContentResolver().openOutputStream(uri);
+    	    OutputStream outStream = getContentResolver().openOutputStream(mTempUri);
     	    mRemixThemView.getActiveCompo().saveAsBitmap().compress(Bitmap.CompressFormat.JPEG, 95, outStream);
     	    outStream.close();
     	} catch (Exception e) {
 			Toast.makeText(this, "Error : Can't write in image",Toast.LENGTH_LONG).show(); 
     	}
     	
-    	Intent email = new Intent(Intent.ACTION_SEND);
-    	email.putExtra(Intent.EXTRA_STREAM, uri );
-    	email.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject) ); 
-    	email.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body) ); 
-    	email.setType("image/*"); 
-    	startActivity(email);  	
-    
+    	Intent sendIntent = new Intent(Intent.ACTION_SEND);
+    	sendIntent.putExtra(Intent.EXTRA_STREAM, mTempUri );
+    	sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject) ); 
+    	sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body) ); 
+    	sendIntent.setType("image/*"); 
+    	startActivityForResult(sendIntent, REQUEST_CODE_SEND);
+    	
     }
     
 }

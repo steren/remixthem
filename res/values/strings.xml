@@ -27,7 +27,7 @@
     
     <string name="saved">Image saved</string>    
     
-    <string name="BTN_preferences">Preferences</string>
+    <string name="BTN_cheatcode">Cheat Code</string>
     
     <string name="BTN_change">Change</string>
     <string name="BTN_edit">Edit</string>
@@ -56,4 +56,6 @@
     <string name="manual_OK">OK</string>
     <string name="please_2_eyes">The two eyes have not been selected</string>
         
+	<string name="entercheatcode">Enter your promotional code:</string>
+	<string name="press_menu_for_option">Open Menu for more options</string>
 </resources>
