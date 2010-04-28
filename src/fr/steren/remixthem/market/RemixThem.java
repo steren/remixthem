@@ -47,7 +47,7 @@ public class RemixThem extends Activity implements View.OnClickListener {
     	if(!SOLD_FULL_VERSION) {
     		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             // Check if user has entered a cheat code to unlock the Full Version
-            liteVersion = ! settings.getBoolean("cheatCodeOK", true);
+            liteVersion = ! settings.getBoolean("cheatCodeOK", false);
     		setContentView(R.layout.lite_main);
     	} else {
     		liteVersion = false;
