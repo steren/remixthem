@@ -27,14 +27,13 @@ import android.provider.Contacts;
 import android.provider.MediaStore;
 import android.provider.Contacts.People;
 import android.provider.MediaStore.Images.Media;
-import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RemixThemEditor extends Activity {
+public class RemixThemEditor extends Activity implements View.OnClickListener {
 	
     public static final int REQUEST_CODE_TAKE_PICTURE   	= 1;
     public static final int REQUEST_CODE_USE_IMAGE     		= 2;
@@ -91,24 +90,41 @@ public class RemixThemEditor extends Activity {
         });
 
         Button button_load = (Button) findViewById(R.id.button_load);
-        button_load.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	startActivityForResult( new Intent(Intent.ACTION_PICK,  android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_CODE_USE_IMAGE); 
-            }
-        });
+        if(RemixThem.liteVersion) {
+        	button_load.setOnClickListener(this);
+        } else {
+	        button_load.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	startActivityForResult( new Intent(Intent.ACTION_PICK,  android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_CODE_USE_IMAGE); 
+	            }
+	        });
+        }
 
         Button button_contact = (Button) findViewById(R.id.button_contact);
-        button_contact.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	selectContact();
-            }
-
-        
-        });
+        if(RemixThem.liteVersion) {
+            button_contact.setOnClickListener(this);
+        } else {
+	        button_contact.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	selectContact();
+	            }
+	        });
+        }
         
         mMenuDisplayed = false;
         mReadyToEdit = false;
         
+    }
+    
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_load:
+            	Toast.makeText(this.getBaseContext(), R.string.BTN_buy_load , Toast.LENGTH_LONG).show();
+                break;
+            case R.id.button_contact:
+            	Toast.makeText(this.getBaseContext(), R.string.BTN_buy_contact , Toast.LENGTH_LONG).show();
+                break;
+        }
     }
     
     private void takePicture() {
@@ -137,9 +153,17 @@ public class RemixThemEditor extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
     	if( mEditor == 1 ) {
-    		inflater.inflate(R.menu.menu_mix, menu);
+    		if(RemixThem.liteVersion) {
+    			inflater.inflate(R.menu.lite_menu_mix, menu);    			
+    		} else {
+    			inflater.inflate(R.menu.menu_mix, menu);
+    		}
     	} else {
-    		inflater.inflate(R.menu.menu_remix, menu);
+    		if(RemixThem.liteVersion) {
+    			inflater.inflate(R.menu.lite_menu_remix, menu);
+    		} else {
+    			inflater.inflate(R.menu.menu_remix, menu);    			
+    		}
     	}
     	displayMenu(menu, false);
 
@@ -201,16 +225,24 @@ public class RemixThemEditor extends Activity {
         	mRemixThemView.resetParams();
         	return true;
         case R.id.send:
-        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
-        	setTitle(R.string.app_name);
-        	mRemixThemView.noActiveCompoPart();
-        	send();
+        	if(RemixThem.liteVersion) {
+            	Toast.makeText(this.getBaseContext(), R.string.BTN_buy_send , Toast.LENGTH_LONG).show();
+        	} else {
+	        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+	        	setTitle(R.string.app_name);
+	        	mRemixThemView.noActiveCompoPart();
+	        	send();
+        	}
         	return true;
         case R.id.save:
-        	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
-        	setTitle(R.string.app_name);
-        	mRemixThemView.noActiveCompoPart();
-        	saveOnDisk();
+        	if(RemixThem.liteVersion) {
+            	Toast.makeText(this.getBaseContext(), R.string.BTN_buy_save , Toast.LENGTH_LONG).show();
+        	} else {
+            	mRemixThemView.setMode(RemixThemView.Mode.NOINTERACTION);
+            	setTitle(R.string.app_name);
+            	mRemixThemView.noActiveCompoPart();
+            	saveOnDisk();        		
+        	}
             return true;
         }
         return false;
@@ -287,7 +319,7 @@ public class RemixThemEditor extends Activity {
             	// TODO delete the temp image but have to be sent first
             	// getContentResolver().delete(mTempUri, null, null);
         	} else {
-    			Toast.makeText(this, "Operation cancelled by the user",Toast.LENGTH_LONG).show();
+    			Toast.makeText(this, R.string.operation_cancelled,Toast.LENGTH_LONG).show();
         	}
         	
         }

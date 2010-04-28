@@ -17,6 +17,8 @@
     <string name="hello_editor_mix">Bonjour\nCommencez par sélectionner une photo du visage d\'un premier ami.</string>
     <string name="new_picture_editor">J\'ai votre premier visage, sélectionnez-en un deuxième.</string>
     
+    <string name="operation_cancelled">Opération annulée par l\'utilisateur</string>
+    
     <string name="nofacedetected">Désolé,</string>
     <string name="nofacedetected_message">Je ne trouve pas de visage dans cette photo.\nVous devriez essayer d\'en prendre une nouvelle ou d\'utiliser le mode manuel.</string>
     <string name="nocontactfacedetected_message">Je ne trouve pas de photo dans ce contact.\nVous devriez essayer d\'en choisir un autre.</string>
@@ -57,4 +59,14 @@
 
 	<string name="entercheatcode">Entrez votre code promotionnel :</string>
 	<string name="press_menu_for_option">Ouvrez le &quot;Menu&quot; pour plus d\'options</string>
+	
+    <string name="BTN_buy">Adoptez moi</string>
+    <string name="BTN_buy_mix">Mélangez deux visages en un seul.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_gallery">Accédez à la galerie de vos visages enregistrés.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_save">Sauvegardez votre mélange.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_send">Envoyez l'image par e-mail, MMS ou Facebook.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_load">Chargez une photo pré-enregistrée.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_contact">Chargez la photo d'un contact.\nUniquement dans la version complète.</string>
+
+
 </resources>

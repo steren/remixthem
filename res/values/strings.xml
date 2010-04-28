@@ -16,6 +16,8 @@
     <string name="picture_contact">Contact picture</string>
     <string name="hello_editor_mix">Hello\nStart by selecting a picture of a first friend\'s face.</string>
     <string name="new_picture_editor">Great!\nI\'ve got the first face, now select the second one please.</string>
+
+    <string name="operation_cancelled">Operation cancelled by the user</string>
         
     <string name="nofacedetected">Sorry,</string>
     <string name="nofacedetected_message">I couldn\'t find a face in your picture.\nYou should try to take a new one or to use the manual mode.</string>
@@ -58,4 +60,14 @@
         
 	<string name="entercheatcode">Enter your promotional code:</string>
 	<string name="press_menu_for_option">Open Menu for more options</string>
+	
+	<string name="BTN_buy">Adopt me</string>
+    <string name="BTN_buy_mix">Mix two faces in one.\nOnly in Full version.</string>
+    <string name="BTN_buy_gallery">Access to your saved faces.\nOnly in Full version.</string>
+    <string name="BTN_buy_save">Save your mix.\nOnly in Full version.</string>
+    <string name="BTN_buy_send">Send your image via e-mail, Text or Facebook.\nOnly in Full version.</string>
+    <string name="BTN_buy_load">Start from a picture stored on your device.\nOnly in Full version.</string>
+    <string name="BTN_buy_contact">Start from a contact picture.\nOnly in Full version.</string>
+    
+	
 </resources>

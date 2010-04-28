@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:paddingTop="35dip"
+        android:paddingLeft="18dip"
+        android:paddingRight="18dip"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="18dip"
+            >
+
+            <Button
+                android:id="@+id/remix_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_remix"
+                android:background="@drawable/main_menu_button"
+                android:text="@string/BTN_remixfriend"
+                android:ellipsize="marquee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimaryDisableOnly"
+                android:singleLine="true"
+                android:layout_marginBottom="35dip"
+            />
+
+            <Button
+                android:id="@+id/gallery_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_menu_button"
+                android:text="@string/BTN_gallery"
+                android:ellipsize="marquee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimaryDisableOnly"
+                android:singleLine="true"
+                android:layout_marginBottom="35dip"
+            android:drawableTop="@drawable/ic_gallery_disabled"/>
+            
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:id="@+id/mix_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_mix"
+                android:background="@drawable/main_menu_button"
+                android:text="@string/BTN_mixfriends"
+                android:ellipsize="marquee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimaryDisableOnly"
+                android:singleLine="true"
+                android:layout_marginBottom="35dip"
+            />
+            
+            <Button
+                android:id="@+id/buy_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_buy"
+                android:background="@drawable/main_menu_button"
+                android:text="@string/BTN_buy"
+                android:ellipsize="marquee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimaryDisableOnly"
+                android:singleLine="true"
+                android:layout_marginBottom="35dip"
+            />
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

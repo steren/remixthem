@@ -8,14 +8,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class RemixThem extends Activity implements View.OnClickListener {
@@ -47,14 +48,12 @@ public class RemixThem extends Activity implements View.OnClickListener {
     		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             // Check if user has entered a cheat code to unlock the Full Version
             liteVersion = ! settings.getBoolean("cheatCodeOK", true);
+    		setContentView(R.layout.lite_main);
+    	} else {
+    		liteVersion = false;
+    		setContentView(R.layout.main);
     	}
         
-        setContentView(R.layout.main);
-        
-        // TODO depending on the version, gray image or not
-        //ImageView image = (ImageView) dialog.findViewById(R.id.image);
-        //image.setImageResource(R.drawable.android);
-    	
         View b = findViewById(R.id.remix_button);
         b.setOnClickListener(this);
 
@@ -63,7 +62,11 @@ public class RemixThem extends Activity implements View.OnClickListener {
 
         b = findViewById(R.id.gallery_button);
         b.setOnClickListener(this);
-    	
+
+        if(liteVersion) {
+        	b = findViewById(R.id.buy_button);
+        	b.setOnClickListener(this);
+        }
     }
 
 	
@@ -92,8 +95,16 @@ public class RemixThem extends Activity implements View.OnClickListener {
             	startActivity(intent);
                 break;
             case R.id.gallery_button:
-                intent = new Intent(this, RemixThemGrid.class);
-            	startActivity(intent);
+            	if(liteVersion) {
+                	Toast.makeText(this.getBaseContext(), R.string.BTN_buy_gallery , Toast.LENGTH_LONG).show();            		
+            	} else {
+            		intent = new Intent(this, RemixThemGrid.class);
+            		startActivity(intent);
+            	}
+                break;
+            case R.id.buy_button:
+            	Intent goMarket = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:fr.steren.remixthem.market"));
+            	startActivity(goMarket);
                 break;
         }
     }
