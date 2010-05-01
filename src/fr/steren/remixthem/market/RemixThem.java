@@ -72,9 +72,12 @@ public class RemixThem extends Activity implements View.OnClickListener {
 	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+    	// TODO enable promo code
+    	/*
     	if(!SOLD_FULL_VERSION) {
     		getMenuInflater().inflate(R.menu.menu_main, menu);
     	}
+    	*/
     	return true;
     }
     

@@ -65,9 +65,9 @@
     <string name="BTN_buy_mix">Mélangez deux visages en un seul.\nUniquement dans la version complète.</string>
     <string name="BTN_buy_gallery">Accédez à la galerie de vos visages enregistrés.\nUniquement dans la version complète.</string>
     <string name="BTN_buy_save">Sauvegardez votre mélange.\nUniquement dans la version complète.</string>
-    <string name="BTN_buy_send">Envoyez l'image par e-mail, MMS ou Facebook.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_send">Envoyez l\'image par e-mail, MMS ou Facebook.\nUniquement dans la version complète.</string>
     <string name="BTN_buy_load">Chargez une photo pré-enregistrée.\nUniquement dans la version complète.</string>
-    <string name="BTN_buy_contact">Chargez la photo d'un contact.\nUniquement dans la version complète.</string>
+    <string name="BTN_buy_contact">Chargez la photo d\'un contact.\nUniquement dans la version complète.</string>
 
 
 </resources>
