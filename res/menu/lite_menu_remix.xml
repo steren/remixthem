@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/ugly" 		android:title="@string/BTN_ugly" 				android:icon="@drawable/ic_menu_ugly"		></item>
+	<item android:id="@+id/reset" 		android:title="@string/BTN_reset" 				android:icon="@drawable/ic_menu_reset"		></item>
+	<item android:id="@+id/editpart" 	android:title="@string/BTN_edit"				android:icon="@drawable/ic_menu_edit" 		></item>
+	<item android:id="@+id/send" 		android:title="@string/BTN_send" 				android:icon="@drawable/lite_ic_menu_send"		></item>
+	<item android:id="@+id/save" 		android:title="@string/BTN_done" 				android:icon="@drawable/lite_ic_menu_done"		></item>
+</menu>
