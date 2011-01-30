@@ -56,7 +56,7 @@
     <string name="manual_second_eye">Second oeil enregistré. Menu > OK pour finir.</string>
     <string name="manual_not_valid_eye2">Le second oeil doit être à droite du premier.</string>
     <string name="manual_OK">OK</string>
-    <string name="please_2_eyes">Les deux yeux n'ont pas été sélectionnés.</string>
+    <string name="please_2_eyes">Les deux yeux n\'ont pas été sélectionnés.</string>
 
 	<string name="entercheatcode">Entrez votre code promotionnel :</string>
 	<string name="press_menu_for_option">Ouvrez le &quot;Menu&quot; pour plus d\'options</string>
