@@ -26,10 +26,11 @@ public class RemixThem extends Activity implements View.OnClickListener {
 	
 	private static final String PREFS_NAME = "RemixThemPrefsFile";
 	
+	/** Store the values of the winner HashCodes */
 	private HashSet<String> mCheatCodesSet;
 	
-	/** Is the current app in lite version state ? (user didn't but it or  */
-	public static boolean liteVersion = false;
+	/** Is the current app in lite version state ? (user didn't buy it or didn't entered a promocode) The value is set at startup */
+	public static boolean liteVersion;
 
 	private AlertDialog mCheatcodeDialog;
 	
@@ -48,6 +49,8 @@ public class RemixThem extends Activity implements View.OnClickListener {
     		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             // Check if user has entered a cheat code to unlock the Full Version
             liteVersion = ! settings.getBoolean("cheatCodeOK", false);
+
+            // TODO display or not the colored image
     		setContentView(R.layout.lite_main);
     	} else {
     		liteVersion = false;
@@ -63,7 +66,7 @@ public class RemixThem extends Activity implements View.OnClickListener {
         b = findViewById(R.id.gallery_button);
         b.setOnClickListener(this);
 
-        if(liteVersion) {
+        if(!SOLD_FULL_VERSION) { // if the user did not pay, always display a Buy me button.
         	b = findViewById(R.id.buy_button);
         	b.setOnClickListener(this);
         }
@@ -72,12 +75,9 @@ public class RemixThem extends Activity implements View.OnClickListener {
 	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-    	// TODO enable promo code
-    	/*
-    	if(!SOLD_FULL_VERSION) {
+    	if(liteVersion) { 
     		getMenuInflater().inflate(R.menu.menu_main, menu);
     	}
-    	*/
     	return true;
     }
     
@@ -154,8 +154,8 @@ public class RemixThem extends Activity implements View.OnClickListener {
     	
     	// depending on the date, check if the given code is valid
         Date currentDate = new Date();
-        currentDate.getMonth();
         currentDate.getYear();
+        currentDate.getMonth();
         currentDate.getDay();
         
     	if(cheatCodeOk) {
@@ -163,6 +163,9 @@ public class RemixThem extends Activity implements View.OnClickListener {
 	        SharedPreferences.Editor editor = settings.edit();
 	        editor.putBoolean("checkCodeOK", true);
 	        editor.commit();
+
+	        // TODO restart activity or something
     	}
+    	
     }
 }

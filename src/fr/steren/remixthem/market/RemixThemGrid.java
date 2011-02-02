@@ -35,7 +35,6 @@ public class RemixThemGrid extends Activity {
         g.setAdapter(new ImageAdapter(this));
         
         g.setOnItemClickListener( new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Intent viewer = new Intent(Intent.ACTION_VIEW);
 				viewer.setDataAndType( Uri.fromFile(mPictureFiles[position]), "image/png" );
