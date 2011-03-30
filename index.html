@@ -1,83 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 
-  <title>Steren/remixthem @ GitHub</title>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-language" content="en"/>
+    <meta name="author" content="Steren Giannini"/>
+    <meta name="description" content="RemixThem is an application for Android devices that allows to remix people."/>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #2c772e;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #d388d1; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #d388d1; }
-    h3 { text-align: center; color: #d388d1; }
-    a { color: #d388d1; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+    <title>RemixThem for Android </title>
 
-<body>
-  <a href="http://github.com/Steren/remixthem"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+    <link rel="stylesheet" type="text/css" href="style.css" /> 
+    
+    <script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-13041825-3']);
+	  _gaq.push(['_trackPageview']);
 
-  <div id="container">
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+  </head>
 
-    <div class="download">
-      <a href="http://github.com/Steren/remixthem/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/Steren/remixthem/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+  <body>
+
+    <div class="main">
+
+        <div id="title_banner">
+            <p id="title">REMIXTHEM</p>        
+        </div>
+
+        <div id="screenshot_phone"><img src="phone.png" alt="RemixThem screenshot on a HTC Magic" /></div>
+
+        <div id="bulle">
+            <p class="bulle_text text_left">Hello!</p>
+            <p class="bulle_text text_right">Would you like to remix some friends ?</p>
+        </div>
+
+        <div id="description">
+            <p>Mix and Remix your friends.</p>
+            <ul>
+                <li>Take or load a picture of a face, and edit its eyes, nose and mouth</li>
+                <li>Mix two faces into one</li>
+                <li>Trust the automatic "Ugly Button" for weird results</li>
+                <li>Share your remixed friends</li>
+            </ul>
+            <p>Download it on Android Market for 1.99€ or try the <i>Lite</i> version</p>
+            <p><a href="screenshots.html">Screenshots</a>  -  <a href="features.html">Planned features</a>  -  <a href="bugs.html">Bugs</a></p>
+        </div>
+
+        <div id="qrcode"><img src="QRCode.png" alt="QR Code for RemixThem"/></div>
+        <div id="pics"><img src="pics.png" alt="Hi!" /></div>
+
     </div>
 
-    <h1><a href="http://github.com/Steren/remixthem">remixthem</a>
-      <span class="small">by <a href="http://github.com/Steren">Steren</a></span></h1>
+  </body>
 
-    <div class="description">
-      Mix and remix faces
-    </div>
-
-    <h2>Contact</h2>
-<p>Steren (steren.giannini@gmail.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/Steren/remixthem/zipball/master">zip</a> or
-      <a href="http://github.com/Steren/remixthem/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/Steren/remixthem</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/Steren/remixthem">Steren/remixthem</a>
-    </div>
-
-  </div>
-
-  <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-13041825-3");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-</body>
 </html>
+
